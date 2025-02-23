@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Translation Editor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+   
+    <div id="top-bar-menu">
+        
+        <a href="#" id="commit-btn">AUTO</a>
+        <a href="#" id="commit-btn">COMMIT</a>
+        
+        <button class="arrow-btn" id="context-back">&#x25C0;</button>
+        <button class="arrow-btn" id="context-forward">&#x25B6;</button>
+        
+        <form method="POST" action="/">
+            <select id="filename" name="filename" onchange="this.form.submit()">
+                {% for f in files %}
+                    <option value="{{ f }}"
+                        {% if f == selected %}selected{% endif %}>
+                        {{ f }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+        
+    </div>
+    <table class="translation-table">
+        <tr>
+            <th>SOURCE</th>
+            <th>TARGET</th>
+            <th></th>
+        </tr>
+        {% for row in rows %}
+        <tr>
+            <td class="tibetan-text">{{ row[0] }}</td>
+            <td class="target-text" contenteditable="true">{{ row[1] }}
+            </td>
+            {% if loop.first %} 
+                <!-- Only add the context pane in the first row, with rowspan to span all rows -->
+                <td class="context-pane" rowspan="{{ rows|length }}">
+                    <div id="loader" class="loading-spinner" style="display: none;"></div>
+                </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
