@@ -1,15 +1,3 @@
-import os
-import sys
-
-from dotenv import load_dotenv
-
-sys.path.insert(0, '../dev-notebooks')
-
-# Add the parent directory to the system path
-parent_path = os.path.abspath(os.path.join(os.getcwd(), '../../'))
-load_dotenv(parent_path + '/.env')
-api_key = os.getenv('api_key')
-
 context = {
     
   "role": "system",
@@ -37,8 +25,7 @@ context = {
 
 
 def pre_translate(messages: list,
-                  context: dict = context,
-                  api_key: str = api_key) -> str:
+                  context: dict = context) -> str:
 
     '''
     Pre-translate a list of messages using the Claude API.
@@ -47,12 +34,13 @@ def pre_translate(messages: list,
 
     messages (list): A list of messages to be translated.
     context (dict): A dictionary containing the context of the translation.
-    api_key (str): The API key for the Claude API.
 
     Returns:
 
     str: The translated response from the API.
     '''
+
+    from utils.get_env_vars import get_env_vars
 
     from bokit.workflows.prepare_messages_for_translate import prepare_messages_for_translate
     from bokit.workflows.translate_with_claude import translate_with_claude
@@ -60,6 +48,10 @@ def pre_translate(messages: list,
     messages = prepare_messages_for_translate(messages)
 
     system = " ".join(f"{key}: {value}; " for key, value in context.items())
+
+    api_key = get_env_vars(keys=['api_key'],
+                           file_name='.env',
+                           relative_to_pwd='../../../')['api_key']
 
     reply = translate_with_claude(api_key, system, messages)
 

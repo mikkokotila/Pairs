@@ -8,14 +8,14 @@ from json import JSONDecodeError
 import requests
 import os
 
-from session_manager import session_manager
+from utils.session_manager import session_manager
 from models.keyword_research import keyword_research as kr
 from models.pre_translate import pre_translate
 from models.explain_grammar import explain_grammar
 from models.commit_to_github import commit_to_github
 
 import sys
-sys.path.insert(0, '../Bokit')
+sys.path.insert(0, '../../Bokit')
 import bokit
 
 
