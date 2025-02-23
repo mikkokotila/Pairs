@@ -29,6 +29,7 @@ class TranslationApp:
         self.csv_file_path = "data/"
         self.app.add_url_rule("/", "index", self.index, methods=["GET", "POST"])
         self.app.add_url_rule("/autosave", "autosave", self.autosave, methods=["POST"])
+        self.app.add_url_rule("/commit", "commit", self.commit, methods=["GET"])
         self.app.add_url_rule("/history", "history", self.history, methods=["GET"])
         self.app.add_url_rule("/keyword-research", "keyword_research", self.keyword_research, methods=["POST"])
         self.app.add_url_rule("/pre-translation", "pre_translation", self.pre_translation, methods=["POST"])
@@ -38,21 +39,17 @@ class TranslationApp:
 
     def index(self):
         # Gather base filenames (without extensions)
-        all_files = [
+        self.all_files = [
             f.split('.')[0]
             for f in os.listdir(self.csv_file_path)
             if os.path.isfile(os.path.join(self.csv_file_path, f))
         ]
 
         # Get user selection from the form (POST). Returns None if nothing posted.
-        selected = request.form.get('filename')
-
-        # If the user hasn't selected anything yet, default to the first file
-        if not selected:
-            selected = all_files[0]
+        self.selected = request.form.get('filename')
 
         # Construct the .csv filename from the selected base name
-        self.filename = selected + '.csv'
+        self.filename = self.selected + '.csv'
         
         # Read the CSV data
         self.data = self.read_csv()
@@ -60,8 +57,8 @@ class TranslationApp:
         # Render the template, passing both the list of file base names and the currently selected one
         return render_template('index.html',
                                rows=self.data.values.tolist(),
-                               files=all_files,
-                               selected=selected)
+                               files=self.all_files,
+                               selected=self.selected)
 
     def read_csv(self):
 
@@ -93,12 +90,17 @@ class TranslationApp:
                     header=False,
                     sep="~",
                     encoding="utf-8")
-        
-        # Call the commit_to_github function
-        # commit_to_github()
 
         return jsonify(status="saved")
     
+
+    def commit(self):
+
+        commit_to_github(self.filename)
+
+        return '', 204
+
+
     def history(self):
 
         direction = request.args.get('direction', '')

@@ -1,9 +1,9 @@
 import subprocess
 
-def commit_to_github():
+def commit_to_github(filename):
     try:
         # Add, commit, and push changes
-        subprocess.run(["git", "add", "data/translation.csv"], check=True)
+        subprocess.run(["git", "add", "data/" + filename], check=True)
         subprocess.run(["git", "commit", "-m", "Autosave commit"], check=True)
         subprocess.run(["git", "push", "origin", "main"], check=True)
         print("Changes committed and pushed to GitHub successfully.")
