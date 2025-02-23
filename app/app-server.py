@@ -71,7 +71,7 @@ class TranslationApp:
                            sep="~",
                            dtype=str,
                            keep_default_na=False,
-                           engine="python")
+                           engine="c")
         
         # If the CSV has just one column, add a target column
         if data.shape[1] == 1:
