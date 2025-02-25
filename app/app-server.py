@@ -48,6 +48,10 @@ class TranslationApp:
         # Get user selection from the form (POST). Returns None if nothing posted.
         self.selected = request.form.get('filename')
 
+        # If no file is selected, select the first in dir listing 
+        if self.selected is None:
+            self.selected = self.all_files[0]
+
         # Construct the .csv filename from the selected base name
         self.filename = self.selected + '.csv'
         

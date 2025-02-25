@@ -53,6 +53,6 @@ def pre_translate(messages: list,
                            file_name='.env',
                            relative_to_pwd='../../../')['api_key']
 
-    reply = translate_with_claude(api_key, system, messages)
+    reply = translate_with_claude(api_key, system, messages, model="claude-3-7-sonnet-20250219")
 
     return reply[0].text
