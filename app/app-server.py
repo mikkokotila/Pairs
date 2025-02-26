@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, session
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from flask_session import Session
 
 import pandas as pd
@@ -10,6 +10,7 @@ import os
 
 from utils.session_manager import session_manager
 from models.keyword_research import keyword_research as kr
+from models.auto_translate import auto_translate
 from models.pre_translate import pre_translate
 from models.explain_grammar import explain_grammar
 from models.commit_to_github import commit_to_github
@@ -20,7 +21,9 @@ import bokit
 
 
 class TranslationApp:
+    
     def __init__(self):
+        
         self.app = Flask(__name__)
         self.app.config['SESSION_TYPE'] = 'filesystem'
         self.app.config['SECRET_KEY'] = '1234'
@@ -30,9 +33,11 @@ class TranslationApp:
         self.app.add_url_rule("/", "index", self.index, methods=["GET", "POST"])
         self.app.add_url_rule("/autosave", "autosave", self.autosave, methods=["POST"])
         self.app.add_url_rule("/commit", "commit", self.commit, methods=["GET"])
+        self.app.add_url_rule("/publish", "publish", self.publish, methods=["GET"])
         self.app.add_url_rule("/history", "history", self.history, methods=["GET"])
         self.app.add_url_rule("/keyword-research", "keyword_research", self.keyword_research, methods=["POST"])
         self.app.add_url_rule("/pre-translation", "pre_translation", self.pre_translation, methods=["POST"])
+        self.app.add_url_rule("/auto-translation", "auto_translation", self.auto_translation, methods=["GET", "POST"])
         self.app.add_url_rule("/lookup-glossary", "lookup_glossary", self.lookup_glossary, methods=["POST"])
         self.app.add_url_rule("/find-examples", "find_examples", self.find_examples, methods=["POST"])
         self.app.add_url_rule("/explain-grammar", "explain_grammar", self.explain_grammar, methods=["POST"])
@@ -57,6 +62,12 @@ class TranslationApp:
         
         # Read the CSV data
         self.data = self.read_csv()
+        
+        # Drop any rows where all columns are empty
+        self.data = self.data.dropna(how='all')
+        
+        # Reset index after dropping rows
+        self.data = self.data.reset_index(drop=True)
 
         # Render the template, passing both the list of file base names and the currently selected one
         return render_template('index.html',
@@ -144,6 +155,63 @@ class TranslationApp:
         return jsonify(result=render_template("context_template.html",
                                               data=json.loads(response_text)))
     
+    def auto_translation(self):
+
+        import re
+        
+        # Get the source column values
+        column_values = self.data.iloc[:, 0].astype(str)
+
+        # Initialize an empty list to store formatted strings
+        formatted_rows = []
+
+        # Iterate over each row with its index and format it
+        for i, row in enumerate(column_values):
+            formatted_rows.append(f'[[{i}]]{row}')
+
+        # Join all formatted rows into a single string
+        result_string = ''.join(formatted_rows)
+
+        text = auto_translate([result_string])
+        response_text = f"{text}"
+
+        text = json.loads(response_text)['Translation']
+
+        text = re.split(r'(?=\[\[)', text)
+
+        for i in range(len(column_values)):
+            print(str(i), text[i+1])
+
+        text = [re.sub(r'\[\[\d+\]\]', '', i) for i in text[1:]]
+
+        self.data.iloc[:, 1] = text
+
+        print(self.data)
+
+        return render_template('index.html',
+                               rows=self.data.values.tolist(),
+                               files=self.all_files,
+                               selected=self.selected)
+
+    def publish(self):
+
+        from utils.get_env_vars import get_env_vars
+        from models.publish_to_docs import publish_to_docs
+
+        env_vars = get_env_vars(keys=['service_account_subject', 'service_account_file'],
+                                file_name='.env',
+                                relative_to_pwd='../../../')
+        
+        #rint(self.data.values.tolist())
+
+        publish_to_docs(
+            '../service-account-file.json',
+            env_vars['service_account_subject'],
+            self.data.values.tolist(),
+            self.selected)
+
+        return '', 204
+
     def pre_translation(self):
 
         request_data = request.json
