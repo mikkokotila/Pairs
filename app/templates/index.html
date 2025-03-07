@@ -3,41 +3,77 @@
 <head>
     <title>Translation Editor</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
    
-    <div id="top-bar-menu">
-        
-        <a href="/auto-translation"" id="commit-btn">AUTO</a>
-        <a href="/commit" id="commit-btn">COMMIT</a>
-        <a href="/publish" id="commit-btn">PUBLISH</a>
-        
-        <button class="arrow-btn" id="context-back">&#x25C0;</button>
-        <button class="arrow-btn" id="context-forward">&#x25B6;</button>
-        
-        <form method="POST" action="/">
-            <select id="filename" name="filename" onchange="this.form.submit()">
-                {% for f in files %}
-                    <option value="{{ f }}"
-                        {% if f == selected %}selected{% endif %}>
-                        {{ f }}
-                    </option>
-                {% endfor %}
-            </select>
-        </form>
-        
-    </div>
+    <header class="apple-nav">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="/" class="app-logo">
+                    <img src="{{ url_for('static', filename='image.png') }}" alt="App Logo" class="nav-logo">
+                </a>
+                <form method="POST" action="/" class="file-selector-form">
+                    <select id="filename" name="filename" onchange="this.form.submit()" class="apple-select">
+                        {% for f in files %}
+                            <option value="{{ f }}"
+                                {% if f == selected %}selected{% endif %}>
+                                {{ f }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+            
+            <div class="nav-center">
+            </div>
+            
+            <div class="nav-right">
+                <a href="/auto-translation" class="nav-button">Translate</a>
+                <a href="/auto-review" class="nav-button">Review</a>
+                <a href="/commit" class="nav-button">Commit</a>
+                <a href="/publish" class="nav-button">Publish</a>
+                
+                <form id="search-form" action="/glossary" method="POST" class="search-container">
+                    <div class="search-wrapper">
+                        <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16">
+                            <path d="M6.5 12C9.53757 12 12 9.53757 12 6.5C12 3.46243 9.53757 1 6.5 1C3.46243 1 1 3.46243 1 6.5C1 9.53757 3.46243 12 6.5 12Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M11 11L15 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                        <input type="text" id="search-box" name="search_term" placeholder="Search...">
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    </header>
+
     <table class="translation-table">
         <tr>
             <th>SOURCE</th>
             <th>TARGET</th>
-            <th></th>
+            <th>            
+                <div class="nav-right">
+                    <button class="nav-button arrow-btn" id="context-back">
+                        <svg width="16" height="16" viewBox="0 0 16 16">
+                            <path d="M10.5 3.5L6 8l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <button class="nav-button arrow-btn" id="context-forward">
+                        <svg width="16" height="16" viewBox="0 0 16 16">
+                            <path d="M5.5 3.5L10 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </th>
         </tr>
         {% for row in rows %}
         <tr>
+            <!-- Tibetan text -->       
             <td class="tibetan-text">{{ row[0] }}</td>
-            <td class="target-text" contenteditable="true">{{ row[1] }}
-            </td>
+
+            <!-- Translation -->
+            <td class="target-text" contenteditable="true">{{ row[1] }}</td>
             {% if loop.first %} 
                 <!-- Only add the context pane in the first row, with rowspan to span all rows -->
                 <td class="context-pane" rowspan="{{ rows|length }}">

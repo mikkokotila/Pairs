@@ -98,6 +98,46 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     };
 
+    document.getElementById("search-form").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent default form submission
+        
+        let searchTerm = document.getElementById("search-box").value.trim();
+        if (!searchTerm) return; // Don't proceed if search box is empty
+        
+        // Show loading spinner while waiting for response
+        updateContextPane("", true);
+        
+        // The server is returning a 500 error, which suggests a server-side issue
+        // Let's check the server code in app-server.py for the glossary function
+        // The issue might be in the JSON handling on the server side
+        
+        const formData = new FormData();
+        formData.append('search_term', searchTerm);
+        
+        fetch("/glossary", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Server error: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            updateContextPane(data.result, false); // Hide spinner & show result
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            // Provide more helpful error message to debug the server issue
+            updateContextPane("Server error occurred. Check the server logs for more details.", false);
+            
+            // The 500 error suggests the server code has an issue, possibly in the glossary function
+            // The error about "<!doctype" suggests HTML is being returned instead of JSON
+            // This often happens when the server crashes and returns an error page
+        });
+    });
+
     // Handle menu click for Pre Translation
     document.getElementById("lookup-glossary").onclick = function() {
         contextMenu.style.display = "none";  // Hide menu before API call
@@ -281,5 +321,6 @@ document.addEventListener("DOMContentLoaded", function() {
           .then(res => res.json())
           .then(data => updateContextPane(data.result, false));
       });
+
 
 });
