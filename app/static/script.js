@@ -23,6 +23,20 @@ document.addEventListener("DOMContentLoaded", function() {
     spinner.classList.add("loading-spinner");
     contextPane.appendChild(spinner);
 
+    // Function to restore text selection
+    function restoreSelection() {
+        if (selectedRange) {
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(selectedRange);
+        }
+    }
+
+    // Prevent clicks on the context menu from clearing the selection
+    contextMenu.addEventListener("click", function(event) {
+        event.stopPropagation();
+    });
+
     // Show custom context menu on right-click
     table.addEventListener("contextmenu", function(event) {
         let selection = window.getSelection();
@@ -62,10 +76,14 @@ document.addEventListener("DOMContentLoaded", function() {
         contextMenu.style.top = `${menuY}px`;
         contextMenu.style.left = `${menuX}px`;
         contextMenu.style.display = "block";
+        
+        // Ensure selection is maintained
+        restoreSelection();
     });
 
     // Handle menu click for Keyword Research
-    document.getElementById("keyword-research").onclick = function() {
+    document.getElementById("keyword-research").onclick = function(event) {
+        event.stopPropagation(); // Prevent the click from bubbling up
         contextMenu.style.display = "none";  // Hide menu immediately before request
         updateContextPane("", true); // Show spinner
 
@@ -77,12 +95,13 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(data => {
             updateContextPane(data.result, false); // Hide spinner & show result
-            contextMenu.style.display = "none";
+            restoreSelection(); // Restore the selection after the action
         });
     };
 
     // Handle menu click for Pre Translation
-    document.getElementById("pre-translation").onclick = function() {
+    document.getElementById("pre-translation").onclick = function(event) {
+        event.stopPropagation(); // Prevent the click from bubbling up
         contextMenu.style.display = "none";  // Hide menu before API call
         updateContextPane("", true); // Show spinner
 
@@ -94,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(data => {
             updateContextPane(data.result, false); // Hide spinner & show result
-            contextMenu.style.display = "none";
+            restoreSelection(); // Restore the selection after the action
         });
     };
 
@@ -130,7 +149,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Handle menu click for Lookup Glossary
-    document.getElementById("lookup-glossary").onclick = function() {
+    document.getElementById("lookup-glossary").onclick = function(event) {
+        event.stopPropagation(); // Prevent the click from bubbling up
         contextMenu.style.display = "none";  // Hide menu before API call
         updateContextPane("", true); // Show spinner
 
@@ -142,12 +162,13 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(data => {
             updateContextPane(data.result, false); // Hide spinner & show result
-            contextMenu.style.display = "none";
+            restoreSelection(); // Restore the selection after the action
         });
     };
 
     // Handle menu click for Find Examples
-    document.getElementById("find-examples").onclick = function() {
+    document.getElementById("find-examples").onclick = function(event) {
+        event.stopPropagation(); // Prevent the click from bubbling up
         contextMenu.style.display = "none";  // Hide menu before API call
         updateContextPane("", true); // Show spinner
 
@@ -159,12 +180,13 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(data => {
             updateContextPane(data.result, false); // Hide spinner & show result
-            contextMenu.style.display = "none";
+            restoreSelection(); // Restore the selection after the action
         });
     };
 
     // Handle menu click for Explain Grammar
-    document.getElementById("explain-grammar").onclick = function() {
+    document.getElementById("explain-grammar").onclick = function(event) {
+        event.stopPropagation(); // Prevent the click from bubbling up
         contextMenu.style.display = "none";  // Hide menu before API call
         updateContextPane("", true); // Show spinner
 
@@ -176,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(data => {
             updateContextPane(data.result, false); // Hide spinner & show result
-            contextMenu.style.display = "none";
+            restoreSelection(); // Restore the selection after the action
         });
     };
 
@@ -210,8 +232,10 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Hide context menu when clicking elsewhere
-    document.addEventListener("click", function() {
-        contextMenu.style.display = "none";
+    document.addEventListener("click", function(event) {
+        if (!contextMenu.contains(event.target)) {
+            contextMenu.style.display = "none";
+        }
     });
 
     let autoSaveTimer = null;
