@@ -322,7 +322,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Function to get row index from a cell
     function getRowIndex(cell) {
-        return Array.from(cell.closest('tbody').children).indexOf(cell.closest('tr'));
+        // Subtract 1 to account for the header row
+        // This ensures the first data row has index 0, matching the server-side indexing
+        return Array.from(cell.closest('tbody').children).indexOf(cell.closest('tr')) - 1;
     }
     
     // Function to load context data for a specific row
@@ -362,8 +364,9 @@ document.addEventListener("DOMContentLoaded", function() {
     // Add event listeners to target cells to show context data when selected
     document.querySelectorAll('.target-text').forEach(cell => {
         cell.addEventListener('focus', function() {
+            const originalIndex = Array.from(cell.closest('tbody').children).indexOf(cell.closest('tr'));
             const rowIndex = getRowIndex(this);
-            console.log("Target cell focused, row index:", rowIndex);
+            console.log("Target cell focused, original index:", originalIndex, "adjusted index:", rowIndex);
             loadContextForRow(rowIndex);
         });
     });
