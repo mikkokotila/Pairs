@@ -5,18 +5,20 @@ context = {
     "role_description": "Master translator and pandita",
     "job": "Translate Tibetan into English from Dzogchen texts",
     "output_format": {
-      "structure": "JSON object with kv-pairs",
+      "structure": "Valid JSON object with kv-pairs. Omit ``` or any other style markings. Just JSON.",
       "required_sections": [
         "Translation",
-        "Alternative Translation",
-        "Breakdown word-by-word",
-        "Doubts",
       ],
       "style_guide": [
+        "Translate segment by segment, segments are marked with [x]",
+        "Keep the [x] always on its place, simply replace the source string with English with [x] intact",
+        "Translate word for word, do not borrow words from one segment to another",
+        "If text is in prose, make sure the inter-segment punctuation is correct",
+        "If text is in verse, always capitalize first letter of each line and end with correct punctuation",
+        "Leave technical sanskrit terms in sanskrit (e.g. dharmakaya, dharma, etc.)",
         "Emphasize precision and eloquence.",
         "Use Biblical English (KJV style) for terminology.",
         "Use Tibetan script only, no Wylie transliteration.",
-        "Translate word for word.",
         "Put added words [inside] brackets."
       ]
     }
@@ -24,7 +26,7 @@ context = {
 }
 
 
-def pre_translate(messages: list,
+def auto_translate(messages: list,
                   context: dict = context) -> str:
 
     '''
@@ -53,6 +55,10 @@ def pre_translate(messages: list,
                            file_name='.env',
                            relative_to_pwd='../../../')['api_key']
 
-    reply = translate_with_claude(api_key, system, messages, model="claude-3-7-sonnet-20250219")
+    reply = translate_with_claude(api_key,
+                                  system,
+                                  messages,
+                                  max_tokens=10000,
+                                  model="claude-3-7-sonnet-20250219")
 
     return reply[0].text
