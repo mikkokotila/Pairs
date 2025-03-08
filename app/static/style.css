@@ -217,16 +217,18 @@
        padding: 0;
        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
        transition: background-color 0.3s ease;
+       width: 100%;
    }
    
    .nav-container {
-       max-width: 1400px;
-       margin: 0 auto;
+       width: 100%;
+       margin: 0;
        display: flex;
        justify-content: space-between;
        align-items: center;
        height: 44px;
-       padding: 0 22px;
+       padding: 0 30px; /* Increase padding for better spacing from edges */
+       box-sizing: border-box; /* Ensure padding is included in width calculation */
    }
    
    .app-logo {
@@ -252,23 +254,18 @@
    .nav-left {
        display: flex;
        align-items: center;
-       flex: 1;
-   }
-   
-   .nav-center {
-       display: flex;
-       align-items: center;
-       justify-content: center;
-       gap: 8px;
-       flex: 1;
+       justify-content: flex-start;
+       flex: 0 0 auto; /* Don't grow, don't shrink, auto basis */
+       padding-left: 0; /* Ensure alignment to the left edge */
    }
    
    .nav-right {
        display: flex;
        align-items: center;
        justify-content: flex-end;
-       flex: 1;
-       gap: 4px;
+       flex: 0 0 auto; /* Don't grow, don't shrink, auto basis */
+       gap: 8px;
+       padding-right: 0; /* Ensure alignment to the right edge */
    }
    
    .nav-button {
@@ -288,6 +285,7 @@
        display: flex;
        align-items: center;
        justify-content: center;
+       white-space: nowrap; /* Prevent text wrapping */
    }
    
    .nav-button:hover {
@@ -316,7 +314,8 @@
    }
    
    .file-selector-form {
-       margin-right: auto;
+       margin: 0; /* Remove any margin that might affect alignment */
+       flex-shrink: 0; /* Prevent form from shrinking */
    }
    
    .apple-select {
@@ -336,6 +335,9 @@
        min-width: 180px;
        transition: background-color 0.2s ease;
        height: 32px;
+       white-space: nowrap; /* Prevent text wrapping */
+       overflow: hidden; /* Hide overflow text */
+       text-overflow: ellipsis; /* Show ellipsis for overflow text */
    }
    
    .apple-select:hover {
@@ -348,7 +350,8 @@
    }
    
    .search-container {
-       margin-left: 8px;
+       margin-left: 12px; /* Increase spacing between navigation buttons and search */
+       flex-shrink: 0; /* Prevent search from shrinking */
    }
    
    .search-wrapper {
@@ -497,5 +500,90 @@
        }
        #top-bar-menu a:hover {
            color: #ffffff;
+       }
+   }
+   
+   /* Review Comments */
+   .context-pane h3 {
+       font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+       font-size: 18px;
+       font-weight: 600;
+       color: #333;
+       margin-top: 0;
+       margin-bottom: 12px;
+       padding-bottom: 8px;
+       border-bottom: 1px solid #ddd;
+   }
+   
+   .review-content {
+       font-family: 'EB Garamond', serif;
+       font-size: 18px;
+       line-height: 1.6;
+       color: #333;
+       padding: 0 4px;
+       animation: fadeIn 0.8s ease-out forwards;
+   }
+   
+   /* No Annotations */
+   .no-annotations-heading {
+       font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+       font-size: 18px;
+       font-weight: 600;
+       color: #888;
+       margin-top: 0;
+       margin-bottom: 12px;
+       padding-bottom: 8px;
+       border-bottom: 1px solid #ddd;
+   }
+   
+   .no-annotations-content {
+       font-family: 'EB Garamond', serif;
+       font-size: 18px;
+       line-height: 1.6;
+       color: #888;
+       padding: 0 4px;
+       font-style: italic;
+       animation: fadeIn 0.8s ease-out forwards;
+   }
+   
+   /* Dark mode support */
+   @media (prefers-color-scheme: dark) {
+       .context-pane h3 {
+           color: #e0e0e0;
+           border-bottom: 1px solid #444;
+       }
+       
+       .review-content {
+           color: #e0e0e0;
+       }
+       
+       .no-annotations-heading {
+           color: #777;
+           border-bottom: 1px solid #444;
+       }
+       
+       .no-annotations-content {
+           color: #777;
+       }
+   }
+   
+   /* =========================================
+      10. RESPONSIVE ADJUSTMENTS
+      ========================================= */
+   @media (max-width: 768px) {
+       .nav-container {
+           padding: 0 15px; /* Reduce padding on smaller screens */
+       }
+       
+       .nav-button {
+           padding: 8px 8px; /* Reduce padding on buttons for smaller screens */
+       }
+       
+       #search-box {
+           width: 150px; /* Reduce width of search box on smaller screens */
+       }
+       
+       #search-box:focus {
+           width: 180px; /* Reduce expanded width of search box on smaller screens */
        }
    }

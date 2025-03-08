@@ -107,10 +107,6 @@ document.addEventListener("DOMContentLoaded", function() {
         // Show loading spinner while waiting for response
         updateContextPane("", true);
         
-        // The server is returning a 500 error, which suggests a server-side issue
-        // Let's check the server code in app-server.py for the glossary function
-        // The issue might be in the JSON handling on the server side
-        
         const formData = new FormData();
         formData.append('search_term', searchTerm);
         
@@ -129,16 +125,11 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         .catch(error => {
             console.error("Error:", error);
-            // Provide more helpful error message to debug the server issue
             updateContextPane("Server error occurred. Check the server logs for more details.", false);
-            
-            // The 500 error suggests the server code has an issue, possibly in the glossary function
-            // The error about "<!doctype" suggests HTML is being returned instead of JSON
-            // This often happens when the server crashes and returns an error page
         });
     });
 
-    // Handle menu click for Pre Translation
+    // Handle menu click for Lookup Glossary
     document.getElementById("lookup-glossary").onclick = function() {
         contextMenu.style.display = "none";  // Hide menu before API call
         updateContextPane("", true); // Show spinner
@@ -155,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     };
 
-    // Handle menu click for Pre Translation
+    // Handle menu click for Find Examples
     document.getElementById("find-examples").onclick = function() {
         contextMenu.style.display = "none";  // Hide menu before API call
         updateContextPane("", true); // Show spinner
@@ -172,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     };
 
-    // Handle menu click for Pre Translation
+    // Handle menu click for Explain Grammar
     document.getElementById("explain-grammar").onclick = function() {
         contextMenu.style.display = "none";  // Hide menu before API call
         updateContextPane("", true); // Show spinner
@@ -190,16 +181,31 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     
-    function updateContextPane(text, isLoading = false) {
+    function updateContextPane(text, isLoading = false, isHTML = false) {
         if (!contextPane) return;
     
         if (isLoading) {
             // Ensure spinner is visible and remove existing text
             contextPane.innerHTML = `<div class="loading-spinner"></div>`;
             document.querySelector(".loading-spinner").style.display = "block"; // Ensure spinner is displayed
+        } else if (text === "") {
+            // Clear the context pane if text is empty
+            contextPane.innerHTML = "";
+        } else if (isHTML) {
+            // If it's already HTML content, insert it directly
+            contextPane.innerHTML = text;
         } else {
-            // Remove spinner and show the actual response
-            contextPane.innerHTML = `<p>${text}</p>`;
+            // Check if the text contains HTML tags
+            const containsHTML = /<[a-z][\s\S]*>/i.test(text);
+            
+            // If it contains HTML, insert it directly; otherwise, wrap in paragraph tags
+            if (containsHTML) {
+                contextPane.innerHTML = text;
+            } else {
+                // Replace newlines with <br> tags for better formatting
+                const formattedText = text.replace(/\n/g, '<br>');
+                contextPane.innerHTML = `<p>${formattedText}</p>`;
+            }
         }
     }
 
@@ -232,14 +238,6 @@ document.addEventListener("DOMContentLoaded", function() {
             resetAutoSaveTimer(cell);
         });
         // Also auto-save immediately on blur
-        cell.addEventListener('blur', function() {
-            autoSave(cell);
-        });
-    });
-
-    // For each editable cell, trigger autosave on blur
-    const editableCells = document.querySelectorAll('.translation-table td[contenteditable="true"]');
-    editableCells.forEach(cell => {
         cell.addEventListener('blur', function() {
             autoSave(cell);
         });
@@ -316,11 +314,57 @@ document.addEventListener("DOMContentLoaded", function() {
           .then(data => updateContextPane(data.result, false));
       });
       
-      document.getElementById('context-forward').addEventListener('click', () => {
+    document.getElementById('context-forward').addEventListener('click', () => {
         fetch('/history?direction=forward')
           .then(res => res.json())
           .then(data => updateContextPane(data.result, false));
-      });
+    });
 
-
+    // Function to get row index from a cell
+    function getRowIndex(cell) {
+        return Array.from(cell.closest('tbody').children).indexOf(cell.closest('tr'));
+    }
+    
+    // Function to load context data for a specific row
+    function loadContextForRow(rowIndex) {
+        console.log("Loading context for row:", rowIndex);
+        updateContextPane("", true); // Show spinner
+        
+        fetch("/get-context", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ row_index: rowIndex })
+        })
+        .then(response => {
+            console.log("Response status:", response.status);
+            return response.json();
+        })
+        .then(data => {
+            console.log("Response data:", data);
+            if (data.has_content) {
+                // If there's content, display it (already formatted with heading)
+                console.log("Has content, displaying:", data.result);
+                updateContextPane(data.result, false, true); // true for HTML content
+            } else {
+                // If no content, display "No annotations" message
+                console.log("No content, displaying 'No annotations'");
+                const noAnnotationsHtml = `<h3 class="no-annotations-heading">No annotations</h3>
+                <div class="no-annotations-content">No review comments available for this text.</div>`;
+                updateContextPane(noAnnotationsHtml, false, true); // true for HTML content
+            }
+        })
+        .catch(error => {
+            console.error("Error loading context:", error);
+            updateContextPane("Error loading context data", false);
+        });
+    }
+    
+    // Add event listeners to target cells to show context data when selected
+    document.querySelectorAll('.target-text').forEach(cell => {
+        cell.addEventListener('focus', function() {
+            const rowIndex = getRowIndex(this);
+            console.log("Target cell focused, row index:", rowIndex);
+            loadContextForRow(rowIndex);
+        });
+    });
 });
