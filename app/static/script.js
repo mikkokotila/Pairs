@@ -2,6 +2,67 @@ document.addEventListener("DOMContentLoaded", function() {
     
     const table = document.querySelector(".translation-table");
     
+    // Reader View Modal
+    const readButton = document.getElementById("read-button");
+    const readerModal = document.getElementById("reader-modal");
+    const readerClose = document.querySelector(".reader-close");
+    const readerModalBody = document.querySelector(".reader-modal-body");
+    
+    // Open reader modal when Read button is clicked
+    if (readButton) {
+        readButton.addEventListener("click", function() {
+            // Get all rows from the translation table
+            const rows = document.querySelectorAll(".translation-table tr:not(:first-child)");
+            
+            // Clear previous content
+            readerModalBody.innerHTML = "";
+            
+            // Format content for reader view
+            rows.forEach(row => {
+                const tibetanCell = row.querySelector(".tibetan-text");
+                const translationCell = row.querySelector(".target-text");
+                
+                if (tibetanCell && translationCell) {
+                    const tibetanText = tibetanCell.textContent.trim();
+                    const translationText = translationCell.textContent.trim();
+                    
+                    // Create elements for the reader view
+                    const translationBlock = document.createElement("div");
+                    translationBlock.className = "reader-translation-block";
+                    translationBlock.textContent = translationText;
+                    
+                    const tibetanBlock = document.createElement("div");
+                    tibetanBlock.className = "reader-tibetan-block";
+                    tibetanBlock.textContent = tibetanText;
+                    
+                    // Add to modal body - target above source
+                    readerModalBody.appendChild(translationBlock);
+                    readerModalBody.appendChild(tibetanBlock);
+                }
+            });
+            
+            // Show the modal
+            readerModal.style.display = "block";
+            document.body.style.overflow = "hidden"; // Prevent scrolling behind modal
+        });
+    }
+    
+    // Close reader modal when close button is clicked
+    if (readerClose) {
+        readerClose.addEventListener("click", function() {
+            readerModal.style.display = "none";
+            document.body.style.overflow = ""; // Restore scrolling
+        });
+    }
+    
+    // Close reader modal when clicking outside the modal content
+    window.addEventListener("click", function(event) {
+        if (event.target === readerModal) {
+            readerModal.style.display = "none";
+            document.body.style.overflow = ""; // Restore scrolling
+        }
+    });
+    
     // Create custom context menu
     const contextMenu = document.createElement("div");
     contextMenu.id = "custom-context-menu";

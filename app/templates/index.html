@@ -28,6 +28,7 @@
             <div class="nav-right">
                 <a href="/translate" class="nav-button">Translate</a>
                 <a href="/review" class="nav-button">Review</a>
+                <button id="read-button" class="nav-button">Read</button>
                 <a href="/commit" class="nav-button">Commit</a>
                 <a href="/publish" class="nav-button">Publish</a>
                 
@@ -79,6 +80,19 @@
         </tr>
         {% endfor %}
     </table>
+    
+    <!-- Reader Modal -->
+    <div id="reader-modal" class="reader-modal">
+        <div class="reader-modal-content">
+            <div class="reader-modal-header">
+                <span class="reader-close">&times;</span>
+            </div>
+            <div class="reader-modal-body">
+                <!-- Content will be dynamically populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+    
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

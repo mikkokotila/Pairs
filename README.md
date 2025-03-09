@@ -30,6 +30,7 @@ The system addresses the unique challenges of translating Tibetan texts, includi
 - **Intuitive Translation Interface**: Clean, distraction-free environment optimized for Tibetan text translation
 - **AI-Assisted Translation**: Get intelligent translation suggestions for complex passages and Buddhist terminology
 - **Context-Aware Tools**: Right-click on text to access various research and assistance tools
+- **Reader View**: View translations in a clean, reader-friendly format optimized for reading
 - **Keyword Research**: Analyze key terms and concepts in Tibetan Buddhist texts
 - **Grammar Explanations**: Get detailed explanations of Tibetan grammatical structures
 - **Glossary Integration**: Lookup and maintain consistent terminology across translations
@@ -92,9 +93,10 @@ The system addresses the unique challenges of translating Tibetan texts, includi
 1. Select a Tibetan text file to translate from the dropdown menu
 2. Edit translations in the target column
 3. Use the context menu (right-click) to access AI assistance tools
-4. Changes are automatically saved as you work
-5. Use the Commit button to save changes to version control
-6. Use the Publish button to finalize translations
+4. Use the Read button to view the text in a reader-friendly format
+5. Changes are automatically saved as you work
+6. Use the Commit button to save changes to version control
+7. Use the Publish button to finalize translations
 
 ### Context Menu Tools
 
