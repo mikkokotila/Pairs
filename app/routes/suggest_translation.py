@@ -1,4 +1,3 @@
-from urllib import request
 import traceback
 import sys
 
