@@ -24,8 +24,8 @@ context = {
 }
 
 
-def pre_translate(messages: list,
-                  context: dict = context) -> str:
+def suggest_translation(messages: list,
+                        context: dict = context) -> str:
 
     '''
     Pre-translate a list of messages using the Claude API.
