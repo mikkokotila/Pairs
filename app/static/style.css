@@ -122,7 +122,16 @@
        border-left: 2px solid #ccc;
        text-align: left;
        vertical-align: top;
-       position: relative; /* for spinner positioning */
+       position: relative; /* for spinner and content positioning */
+       overflow: auto; /* Enable scrolling */
+   }
+   
+   /* Context content container for positioning */
+   .context-content-container {
+       width: calc(100% - 24px); /* Account for padding */
+       max-height: 80vh; /* Limit height to prevent excessive content */
+       overflow-y: auto; /* Enable vertical scrolling if content is too long */
+       background-color: #f5f5f5;
    }
    
    /* Spinner */
@@ -160,7 +169,7 @@
            transform: translateY(0);
        }
    }
-   .context-pane p {
+   .context-pane p, .context-content-container p {
        opacity: 0;
        animation: fadeIn 0.8s ease-out forwards;
    }

@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let selectedText = "";
     let selectedRange = null;
     let contextPane = document.querySelector(".context-pane");
+    let currentSelectedRow = null; // Track the currently selected row
 
     // Add loading spinner inside context pane
     const spinner = document.createElement("div");
@@ -234,22 +235,57 @@ document.addEventListener("DOMContentLoaded", function() {
         } else if (text === "") {
             // Clear the context pane if text is empty
             contextPane.innerHTML = "";
-        } else if (isHTML) {
-            // If it's already HTML content, insert it directly
-            contextPane.innerHTML = text;
         } else {
-            // Check if the text contains HTML tags
-            const containsHTML = /<[a-z][\s\S]*>/i.test(text);
+            // Create a container for the content that we can position
+            let contentContainer = document.createElement('div');
+            contentContainer.className = 'context-content-container';
             
-            // If it contains HTML, insert it directly; otherwise, wrap in paragraph tags
-            if (containsHTML) {
-                contextPane.innerHTML = text;
+            // Add the content to the container
+            if (isHTML) {
+                contentContainer.innerHTML = text;
             } else {
-                // Replace newlines with <br> tags for better formatting
-                const formattedText = text.replace(/\n/g, '<br>');
-                contextPane.innerHTML = `<p>${formattedText}</p>`;
+                // Check if the text contains HTML tags
+                const containsHTML = /<[a-z][\s\S]*>/i.test(text);
+                
+                // If it contains HTML, insert it directly; otherwise, wrap in paragraph tags
+                if (containsHTML) {
+                    contentContainer.innerHTML = text;
+                } else {
+                    // Replace newlines with <br> tags for better formatting
+                    const formattedText = text.replace(/\n/g, '<br>');
+                    contentContainer.innerHTML = `<p>${formattedText}</p>`;
+                }
+            }
+            
+            // Clear the context pane and add the new container
+            contextPane.innerHTML = '';
+            contextPane.appendChild(contentContainer);
+            
+            // Position the content container to align with the selected row
+            if (currentSelectedRow) {
+                positionContextContent(currentSelectedRow, contentContainer);
             }
         }
+    }
+    
+    // Function to position the context content aligned with the selected row
+    function positionContextContent(row, contentContainer) {
+        if (!row || !contentContainer) return;
+        
+        // Get the position of the selected row relative to the table
+        const rowRect = row.getBoundingClientRect();
+        const contextPaneRect = contextPane.getBoundingClientRect();
+        
+        // Calculate the top position for the content
+        // This aligns the top of the content with the top of the selected row
+        const topPosition = rowRect.top - contextPaneRect.top;
+        
+        // Apply the position
+        contentContainer.style.position = 'absolute';
+        contentContainer.style.top = `${topPosition}px`;
+        contentContainer.style.left = '0';
+        contentContainer.style.right = '0';
+        contentContainer.style.padding = '12px'; // Maintain the padding from the context pane
     }
 
     // Hide context menu when clicking elsewhere
@@ -373,7 +409,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     
     // Function to load context data for a specific row
-    function loadContextForRow(rowIndex) {
+    function loadContextForRow(rowIndex, row) {
         console.log("Loading context for row:", rowIndex);
         updateContextPane("", true); // Show spinner
         
@@ -409,10 +445,11 @@ document.addEventListener("DOMContentLoaded", function() {
     // Add event listeners to target cells to show context data when selected
     document.querySelectorAll('.target-text').forEach(cell => {
         cell.addEventListener('focus', function() {
-            const originalIndex = Array.from(cell.closest('tbody').children).indexOf(cell.closest('tr'));
             const rowIndex = getRowIndex(this);
-            console.log("Target cell focused, original index:", originalIndex, "adjusted index:", rowIndex);
-            loadContextForRow(rowIndex);
+            const row = this.closest('tr');
+            currentSelectedRow = row; // Store the currently selected row
+            console.log("Target cell focused, adjusted index:", rowIndex);
+            loadContextForRow(rowIndex, row);
         });
     });
 });
