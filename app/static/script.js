@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const contextMenu = document.createElement("div");
     contextMenu.id = "custom-context-menu";
     contextMenu.innerHTML = `<ul>
-    <li id="keyword-research">Research Keywords</li>
+    <li id="research-keyword">Research Keyword</li>
     <li id="pre-translation">Suggest Translation</li>
     <li id="lookup-glossary">Lookup Glossary</li>
     <li id="find-examples">Find Examples</li>
@@ -41,11 +41,14 @@ document.addEventListener("DOMContentLoaded", function() {
     table.addEventListener("contextmenu", function(event) {
         let selection = window.getSelection();
         selectedText = selection.toString().trim();
+        console.log("Right-click detected, selected text:", selectedText);
+        
         if (!selectedText) return;
 
         event.preventDefault(); // Prevent default menu
 
         selectedRange = selection.getRangeAt(0);
+        console.log("Selected range:", selectedRange);
 
         // Get viewport and document scroll positions
         let viewportWidth = window.innerWidth;
@@ -76,31 +79,42 @@ document.addEventListener("DOMContentLoaded", function() {
         contextMenu.style.top = `${menuY}px`;
         contextMenu.style.left = `${menuX}px`;
         contextMenu.style.display = "block";
+        console.log("Context menu displayed at:", menuX, menuY);
         
         // Ensure selection is maintained
         restoreSelection();
     });
 
-    // Handle menu click for Keyword Research
-    document.getElementById("keyword-research").onclick = function(event) {
+    // Handle menu click for Research Keyword
+    document.getElementById("research-keyword").onclick = function(event) {
+        console.log("Research Keyword clicked");
         event.stopPropagation(); // Prevent the click from bubbling up
         contextMenu.style.display = "none";  // Hide menu immediately before request
         updateContextPane("", true); // Show spinner
 
-        fetch("/keyword-research", {
+        fetch("/research-keyword", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text: selectedText })
         })
-        .then(response => response.json())
+        .then(response => {
+            console.log("Research Keyword response:", response);
+            return response.json();
+        })
         .then(data => {
+            console.log("Research Keyword data:", data);
             updateContextPane(data.result, false); // Hide spinner & show result
             restoreSelection(); // Restore the selection after the action
+        })
+        .catch(error => {
+            console.error("Research Keyword error:", error);
+            updateContextPane("Error: " + error.message, false);
         });
     };
 
     // Handle menu click for Pre Translation
     document.getElementById("pre-translation").onclick = function(event) {
+        console.log("Pre Translation clicked");
         event.stopPropagation(); // Prevent the click from bubbling up
         contextMenu.style.display = "none";  // Hide menu before API call
         updateContextPane("", true); // Show spinner
@@ -110,10 +124,18 @@ document.addEventListener("DOMContentLoaded", function() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text: selectedText })
         })
-        .then(response => response.json())
+        .then(response => {
+            console.log("Pre Translation response:", response);
+            return response.json();
+        })
         .then(data => {
+            console.log("Pre Translation data:", data);
             updateContextPane(data.result, false); // Hide spinner & show result
             restoreSelection(); // Restore the selection after the action
+        })
+        .catch(error => {
+            console.error("Pre Translation error:", error);
+            updateContextPane("Error: " + error.message, false);
         });
     };
 
@@ -150,6 +172,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Handle menu click for Lookup Glossary
     document.getElementById("lookup-glossary").onclick = function(event) {
+        console.log("Lookup Glossary clicked");
         event.stopPropagation(); // Prevent the click from bubbling up
         contextMenu.style.display = "none";  // Hide menu before API call
         updateContextPane("", true); // Show spinner
@@ -159,15 +182,24 @@ document.addEventListener("DOMContentLoaded", function() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text: selectedText })
         })
-        .then(response => response.json())
+        .then(response => {
+            console.log("Lookup Glossary response:", response);
+            return response.json();
+        })
         .then(data => {
+            console.log("Lookup Glossary data:", data);
             updateContextPane(data.result, false); // Hide spinner & show result
             restoreSelection(); // Restore the selection after the action
+        })
+        .catch(error => {
+            console.error("Lookup Glossary error:", error);
+            updateContextPane("Error: " + error.message, false);
         });
     };
 
     // Handle menu click for Find Examples
     document.getElementById("find-examples").onclick = function(event) {
+        console.log("Find Examples clicked");
         event.stopPropagation(); // Prevent the click from bubbling up
         contextMenu.style.display = "none";  // Hide menu before API call
         updateContextPane("", true); // Show spinner
@@ -177,15 +209,24 @@ document.addEventListener("DOMContentLoaded", function() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text: selectedText })
         })
-        .then(response => response.json())
+        .then(response => {
+            console.log("Find Examples response:", response);
+            return response.json();
+        })
         .then(data => {
+            console.log("Find Examples data:", data);
             updateContextPane(data.result, false); // Hide spinner & show result
             restoreSelection(); // Restore the selection after the action
+        })
+        .catch(error => {
+            console.error("Find Examples error:", error);
+            updateContextPane("Error: " + error.message, false);
         });
     };
 
     // Handle menu click for Explain Grammar
     document.getElementById("explain-grammar").onclick = function(event) {
+        console.log("Explain Grammar clicked");
         event.stopPropagation(); // Prevent the click from bubbling up
         contextMenu.style.display = "none";  // Hide menu before API call
         updateContextPane("", true); // Show spinner
@@ -195,10 +236,18 @@ document.addEventListener("DOMContentLoaded", function() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text: selectedText })
         })
-        .then(response => response.json())
+        .then(response => {
+            console.log("Explain Grammar response:", response);
+            return response.json();
+        })
         .then(data => {
+            console.log("Explain Grammar data:", data);
             updateContextPane(data.result, false); // Hide spinner & show result
             restoreSelection(); // Restore the selection after the action
+        })
+        .catch(error => {
+            console.error("Explain Grammar error:", error);
+            updateContextPane("Error: " + error.message, false);
         });
     };
 
@@ -233,8 +282,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Hide context menu when clicking elsewhere
     document.addEventListener("click", function(event) {
+        console.log("Document clicked, target:", event.target);
         if (!contextMenu.contains(event.target)) {
+            console.log("Click outside context menu, hiding menu");
             contextMenu.style.display = "none";
+        } else {
+            console.log("Click inside context menu, keeping menu visible");
         }
     });
 
