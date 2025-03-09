@@ -1,7 +1,7 @@
 def index(self):
     
     import os
-    from flask import render_template, request
+    from flask import render_template, request, session
 
     from utils.read_csv import read_csv
     # Gather base filenames (without extensions)
@@ -17,12 +17,17 @@ def index(self):
     # Get user selection from the form (POST). Returns None if nothing posted.
     self.selected = request.form.get('filename')
 
-    # If no file is selected, select the first in dir listing 
+    # If no file is selected from the form, check if there's a file in the session
     if self.selected is None:
-        self.selected = self.all_files[0]
+        # Check if there's a selected file in the session
+        self.selected = session.get('selected_file')
+        
+        # If still no file is selected, select the first in dir listing
+        if self.selected is None or self.selected not in self.all_files:
+            self.selected = self.all_files[0] if self.all_files else None
 
     # Construct the .csv filename from the selected base name
-    self.filename = self.selected + '.csv'
+    self.filename = self.selected + '.csv' if self.selected else None
     
     # Read the CSV data
     self.data = read_csv(self)

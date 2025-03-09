@@ -20,6 +20,7 @@ class TranslationApp:
         
         # Navigational routes
         self.app.add_url_rule("/", "index", self.index, methods=["GET", "POST"])
+        self.app.add_url_rule("/new", "new", self.new, methods=["GET", "POST"])
         self.app.add_url_rule("/translate", "translate", self.translate, methods=["GET", "POST"])
         self.app.add_url_rule("/review", "review", self.review, methods=["GET", "POST"])
         self.app.add_url_rule("/commit", "commit", self.commit, methods=["GET"])
@@ -39,12 +40,18 @@ class TranslationApp:
         self.app.add_url_rule("/history", "history", self.history, methods=["GET"])
         self.app.add_url_rule("/get-context", "get_context", self.get_context, methods=["POST"])
         self.app.add_url_rule("/autosave", "autosave", self.autosave, methods=["POST"])
+        self.app.add_url_rule("/create-text", "create_text", self.create_text, methods=["POST"])
 
     ## Navigation routes
     def index(self):
 
         from routes.index import index
         return index(self)
+    
+    def new(self):
+
+        from routes.new import new
+        return new(self)
     
     def translate(self):
 
@@ -113,6 +120,11 @@ class TranslationApp:
 
         from routes.autosave import autosave
         return autosave(self)
+    
+    def create_text(self):
+
+        from routes.create_text import create_text
+        return create_text(self)
         
 
     def run(self):
