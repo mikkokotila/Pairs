@@ -25,9 +25,11 @@ def translate(self):
     text = json.loads(response_text)['Translation']
 
     text = re.split(r'(?=\[\[)', text)
-
+    
+    '''
     for i in range(len(column_values)):
         print(str(i), text[i+1])
+    '''
 
     text = [re.sub(r'\[\[\d+\]\]', '', i) for i in text[1:]]
 

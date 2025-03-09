@@ -1,11 +1,13 @@
 def autosave(self):
 
     from flask import request, jsonify
+
+    from utils.read_csv import read_csv
     
     content = request.json["content"]
     row = request.json["row"]
 
-    data = self.read_csv()
+    data = read_csv(self)
     data.iloc[row, 1] = content
 
     data.to_csv(self.csv_file_path + self.filename,
