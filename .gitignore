@@ -1,6 +1,6 @@
 __pycache__/
 flask_session/
 .env
-TODO.md
+to-do.txt
 service-account-file.json
 **/.DS_Store
