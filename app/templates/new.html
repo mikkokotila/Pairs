@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add New Text - Translation Editor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Modal specific styles */
+        .new-text-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .new-text-title {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 24px;
+            font-weight: 500;
+            color: #1d1d1f;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1d1d1f;
+            margin-bottom: 8px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px 14px;
+            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 14px;
+            border: 1px solid #d2d2d7;
+            border-radius: 6px;
+            background-color: #fff;
+            color: #1d1d1f;
+            transition: border-color 0.2s ease;
+            box-sizing: border-box;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #0071e3;
+            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.1);
+        }
+        
+        .form-textarea {
+            width: 100%;
+            height: 300px;
+            padding: 10px 14px;
+            font-family: 'Noto Serif Tibetan', serif;
+            font-size: 18px;
+            border: 1px solid #d2d2d7;
+            border-radius: 6px;
+            background-color: #fff;
+            color: #1d1d1f;
+            resize: vertical;
+            transition: border-color 0.2s ease;
+            box-sizing: border-box;
+        }
+        
+        .form-textarea:focus {
+            outline: none;
+            border-color: #0071e3;
+            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.1);
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .submit-button {
+            background-color: #0071e3;
+            color: #fff;
+            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .submit-button:hover {
+            background-color: #0077ed;
+        }
+        
+        .submit-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.3);
+        }
+        
+        .error-message {
+            color: #ff3b30;
+            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .success-message {
+            color: #34c759;
+            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            .new-text-container {
+                background-color: #1c1c1e;
+            }
+            
+            .new-text-title {
+                color: #f5f5f7;
+            }
+            
+            .form-label {
+                color: #f5f5f7;
+            }
+            
+            .form-input, .form-textarea {
+                background-color: #2c2c2e;
+                border-color: #3a3a3c;
+                color: #f5f5f7;
+            }
+            
+            .form-input:focus, .form-textarea:focus {
+                border-color: #0071e3;
+            }
+        }
+    </style>
+</head>
+<body>
+   
+    <header class="apple-nav">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="/" class="app-logo">
+                    <img src="{{ url_for('static', filename='image.png') }}" alt="App Logo" class="nav-logo">
+                </a>
+                <form method="POST" action="/" class="file-selector-form">
+                    <select id="filename" name="filename" onchange="this.form.submit()" class="apple-select">
+                        {% for f in files %}
+                            <option value="{{ f }}"
+                                {% if f == selected %}selected{% endif %}>
+                                {{ f }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+            
+            <div class="nav-right">
+                <a href="/new" class="nav-button" style="background-color: #0071e3; color: white;">New</a>
+                <a href="/translate" class="nav-button">Translate</a>
+                <a href="/review" class="nav-button">Review</a>
+                <a href="/commit" class="nav-button">Commit</a>
+                <a href="/publish" class="nav-button">Publish</a>
+                
+                <form id="search-form" action="/glossary" method="POST" class="search-container">
+                    <div class="search-wrapper">
+                        <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16">
+                            <path d="M6.5 12C9.53757 12 12 9.53757 12 6.5C12 3.46243 9.53757 1 6.5 1C3.46243 1 1 3.46243 1 6.5C1 9.53757 3.46243 12 6.5 12Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M11 11L15 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                        <input type="text" id="search-box" name="search_term" placeholder="Search...">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <div class="new-text-container">
+        <h1 class="new-text-title">Add New Text</h1>
+        
+        <div class="form-group">
+            <label for="text-name" class="form-label">Text Name</label>
+            <input type="text" id="text-name" class="form-input" placeholder="Enter a name for the text file">
+            <div id="name-error" class="error-message"></div>
+        </div>
+        
+        <div class="form-group">
+            <label for="text-content" class="form-label">Tibetan Text Content</label>
+            <textarea id="text-content" class="form-textarea" placeholder="Paste or type Tibetan text here"></textarea>
+            <div id="content-error" class="error-message"></div>
+        </div>
+        
+        <div class="button-container">
+            <button id="add-text-button" class="submit-button">Add Text</button>
+        </div>
+        
+        <div id="success-message" class="success-message"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const addTextButton = document.getElementById('add-text-button');
+            const textNameInput = document.getElementById('text-name');
+            const textContentInput = document.getElementById('text-content');
+            const nameError = document.getElementById('name-error');
+            const contentError = document.getElementById('content-error');
+            const successMessage = document.getElementById('success-message');
+            
+            addTextButton.addEventListener('click', function() {
+                // Reset error messages
+                nameError.style.display = 'none';
+                contentError.style.display = 'none';
+                successMessage.style.display = 'none';
+                
+                // Get input values
+                const name = textNameInput.value.trim();
+                const content = textContentInput.value.trim();
+                
+                // Validate input
+                let isValid = true;
+                
+                if (!name) {
+                    nameError.textContent = 'Please enter a name for the text file';
+                    nameError.style.display = 'block';
+                    isValid = false;
+                }
+                
+                if (!content) {
+                    contentError.textContent = 'Please enter the Tibetan text content';
+                    contentError.style.display = 'block';
+                    isValid = false;
+                }
+                
+                if (isValid) {
+                    // Disable button to prevent multiple submissions
+                    addTextButton.disabled = true;
+                    addTextButton.textContent = 'Adding...';
+                    
+                    // Send request to create text
+                    fetch('/create-text', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            name: name,
+                            content: content
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Re-enable button
+                        addTextButton.disabled = false;
+                        addTextButton.textContent = 'Add Text';
+                        
+                        if (data.status === 'success') {
+                            // Show success message
+                            successMessage.textContent = data.message;
+                            successMessage.style.display = 'block';
+                            
+                            // Clear form
+                            textNameInput.value = '';
+                            textContentInput.value = '';
+                            
+                            // Redirect to home page after a delay
+                            setTimeout(function() {
+                                window.location.href = '/';
+                            }, 1500);
+                        } else {
+                            // Show error message
+                            nameError.textContent = data.message;
+                            nameError.style.display = 'block';
+                        }
+                    })
+                    .catch(error => {
+                        // Re-enable button
+                        addTextButton.disabled = false;
+                        addTextButton.textContent = 'Add Text';
+                        
+                        // Show error message
+                        nameError.textContent = 'An error occurred. Please try again.';
+                        nameError.style.display = 'block';
+                        console.error('Error:', error);
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
