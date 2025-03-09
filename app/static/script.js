@@ -101,19 +101,40 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Handle menu click for Pre Translation
     document.getElementById("suggest-translation").onclick = function(event) {
+        console.log("Suggest Translation clicked");
         event.stopPropagation(); // Prevent the click from bubbling up
         contextMenu.style.display = "none";  // Hide menu before API call
         updateContextPane("", true); // Show spinner
+
+        // Set a timeout to handle cases where the request takes too long
+        const timeoutId = setTimeout(() => {
+            console.log("Suggest Translation request timed out");
+            updateContextPane("Request timed out. Please try again.", false);
+        }, 30000); // 30 seconds timeout
 
         fetch("/suggest-translation", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text: selectedText })
         })
-        .then(response => response.json())
+        .then(response => {
+            console.log("Suggest Translation response received:", response);
+            clearTimeout(timeoutId); // Clear the timeout since we got a response
+            
+            if (!response.ok) {
+                throw new Error(`Server error: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
+            console.log("Suggest Translation data:", data);
             updateContextPane(data.result, false); // Hide spinner & show result
             restoreSelection(); // Restore the selection after the action
+        })
+        .catch(error => {
+            console.error("Suggest Translation error:", error);
+            clearTimeout(timeoutId); // Clear the timeout in case of error
+            updateContextPane("Error: " + error.message, false);
         });
     };
 
