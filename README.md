@@ -1,9 +1,11 @@
 # Pairs
 
 <div align="center">
-  <!-- Add a project logo or banner image here when available -->
-  <h3>Advanced Translation Management System</h3>
-  <p>A powerful tool for managing, editing, and reviewing translations with AI assistance</p>
+  <a href="https://github.com/lopenling">
+    <img src="https://raw.githubusercontent.com/lopenling/Home/main/assets/Lopenling-Logo-Icon.png" alt="Lopenling" width="100">
+  </a>
+  <h3>Advanced Translation Management System for Tibetan Wisdom Texts</h3>
+  <p>A powerful tool for managing, editing, and reviewing translations of Tibetan Buddhist texts with AI assistance</p>
 </div>
 
 <p align="center">
@@ -19,19 +21,19 @@
 
 ## Overview
 
-Pairs is an advanced translation management system designed for translators working with Tibetan texts. It provides a modern, intuitive interface for translation work with powerful AI-assisted features to enhance productivity and quality.
+Pairs is an advanced translation management system specifically designed for translators working with Tibetan Buddhist wisdom texts. It provides a modern, intuitive interface for translation work with powerful AI-assisted features to enhance productivity and quality.
 
-The system combines traditional translation workflows with cutting-edge AI capabilities to assist in research, grammar explanation, and translation suggestions, making it an essential tool for professional translators and scholars.
+The system addresses the unique challenges of translating Tibetan texts, including complex terminology, specialized grammar, and philosophical concepts. It combines traditional translation workflows with cutting-edge AI capabilities to assist in research, grammar explanation, and translation suggestions, making it an essential tool for professional translators and scholars in the field of Tibetan Buddhism.
 
 ## Key Features
 
-- **Intuitive Translation Interface**: Clean, distraction-free environment for translation work
-- **AI-Assisted Translation**: Get intelligent translation suggestions for complex passages
+- **Intuitive Translation Interface**: Clean, distraction-free environment optimized for Tibetan text translation
+- **AI-Assisted Translation**: Get intelligent translation suggestions for complex passages and Buddhist terminology
 - **Context-Aware Tools**: Right-click on text to access various research and assistance tools
-- **Keyword Research**: Analyze key terms and concepts in the source text
-- **Grammar Explanations**: Get detailed explanations of grammatical structures
-- **Glossary Integration**: Lookup and maintain consistent terminology
-- **Example Finder**: Find similar usage examples for difficult passages
+- **Keyword Research**: Analyze key terms and concepts in Tibetan Buddhist texts
+- **Grammar Explanations**: Get detailed explanations of Tibetan grammatical structures
+- **Glossary Integration**: Lookup and maintain consistent terminology across translations
+- **Example Finder**: Find similar usage examples for difficult passages from other texts
 - **Automatic Saving**: Never lose your work with automatic saving
 - **Version Control**: Track changes and maintain a history of your translations
 - **Review System**: Collaborative review and feedback system
@@ -44,6 +46,7 @@ The system combines traditional translation workflows with cutting-edge AI capab
 - Python 3.8 or higher
 - Git
 - API key for Claude AI (for AI-assisted features)
+- Google Cloud service account (for publishing features)
 
 ### Setup
 
@@ -72,7 +75,12 @@ The system combines traditional translation workflows with cutting-edge AI capab
    service_account_file=path_to_service_account_file.json
    ```
 
-5. Run the application:
+5. Create a Google Cloud service account file:
+   - Follow the [official Google Cloud documentation](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#creating) to create a service account key
+   - Download the JSON key file and save it in your project directory
+   - Update the `service_account_file` path in your `.env` file
+
+6. Run the application:
    ```bash
    python app/run.py
    ```
@@ -81,7 +89,7 @@ The system combines traditional translation workflows with cutting-edge AI capab
 
 ### Basic Translation Workflow
 
-1. Select a file to translate from the dropdown menu
+1. Select a Tibetan text file to translate from the dropdown menu
 2. Edit translations in the target column
 3. Use the context menu (right-click) to access AI assistance tools
 4. Changes are automatically saved as you work
@@ -90,11 +98,11 @@ The system combines traditional translation workflows with cutting-edge AI capab
 
 ### Context Menu Tools
 
-- **Research Keyword**: Analyze key terms and concepts
-- **Suggest Translation**: Get AI-powered translation suggestions
-- **Lookup Glossary**: Check terminology in the glossary
-- **Find Examples**: Find similar usage examples
-- **Explain Grammar**: Get grammatical explanations
+- **Research Keyword**: Analyze key terms and concepts in Tibetan Buddhist terminology
+- **Suggest Translation**: Get AI-powered translation suggestions for difficult passages
+- **Lookup Glossary**: Check terminology in the glossary of Buddhist terms
+- **Find Examples**: Find similar usage examples in other translated texts
+- **Explain Grammar**: Get grammatical explanations for complex Tibetan constructions
 
 ### Keyboard Shortcuts
 
@@ -125,11 +133,11 @@ The system can be customized by modifying:
 
 The system provides several API endpoints:
 
-- `/research-keyword`: Analyze key terms
+- `/research-keyword`: Analyze key terms in Tibetan texts
 - `/suggest-translation`: Get translation suggestions
-- `/lookup-glossary`: Search the glossary
-- `/find-examples`: Find usage examples
-- `/explain-grammar`: Get grammar explanations
+- `/lookup-glossary`: Search the glossary of Buddhist terms
+- `/find-examples`: Find usage examples in other texts
+- `/explain-grammar`: Get grammar explanations for Tibetan constructions
 - `/get-context`: Retrieve context for a row
 - `/autosave`: Save changes automatically
 
@@ -145,6 +153,15 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 Please ensure your code follows the project's coding style and includes appropriate tests.
 
+## Contributors
+
+Special thanks to all the contributors who have helped make Pairs possible:
+
+- [@mikkokotila](https://github.com/mikkokotila) - Project Lead
+- [@mcsneaky](https://github.com/mcsneaky) - Developer
+- [@sidrun](https://github.com/sidrun) - Developer
+- [@ngawangtrinley](https://github.com/ngawangtrinley) - Tibetan Language Expert
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -158,5 +175,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 <div align="center">
-  <sub>Built with ❤️ for the translation community</sub>
+  <sub>Built with ❤️ for the Tibetan translation community</sub>
 </div>
