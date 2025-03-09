@@ -6,8 +6,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const contextMenu = document.createElement("div");
     contextMenu.id = "custom-context-menu";
     contextMenu.innerHTML = `<ul>
-    <li id="keyword-research">Research Keywords</li>
-    <li id="pre-translation">Suggest Translation</li>
+    <li id="research-keyword">Research Keyword</li>
+    <li id="suggest-translation">Suggest Translation</li>
     <li id="lookup-glossary">Lookup Glossary</li>
     <li id="find-examples">Find Examples</li>
     <li id="explain-grammar">Explain Grammar</li>
@@ -82,12 +82,12 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Handle menu click for Keyword Research
-    document.getElementById("keyword-research").onclick = function(event) {
+    document.getElementById("research-keyword").onclick = function(event) {
         event.stopPropagation(); // Prevent the click from bubbling up
         contextMenu.style.display = "none";  // Hide menu immediately before request
         updateContextPane("", true); // Show spinner
 
-        fetch("/keyword-research", {
+        fetch("/research-keyword", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text: selectedText })
@@ -100,12 +100,12 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     // Handle menu click for Pre Translation
-    document.getElementById("pre-translation").onclick = function(event) {
+    document.getElementById("suggest-translation").onclick = function(event) {
         event.stopPropagation(); // Prevent the click from bubbling up
         contextMenu.style.display = "none";  // Hide menu before API call
         updateContextPane("", true); // Show spinner
 
-        fetch("/pre-translation", {
+        fetch("/suggest-translation", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text: selectedText })

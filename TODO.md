@@ -8,3 +8,4 @@
 - [ ] Put all the routes to their own files in /models
 - [ ] Move all styles to style.css
 - [ ] Move all route specific html into the routes in /media
+- [ ] Add Reader view
