@@ -1,5 +1,11 @@
 # Changelog
 
+## 22:30 on 09-03-2025
+- Added ability to add new text from GUI
+  - Added 'New' button to the navigation menu
+  - Moved CSS from new.html to style.css
+  - Implemented active state styling for navigation buttons
+
 ## 17:30 on 09-03-2025
 - Fixed Reader view feature to match requirements
   - Removed heading from the reader modal
