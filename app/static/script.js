@@ -27,17 +27,17 @@ document.addEventListener("DOMContentLoaded", function() {
                     const translationText = translationCell.textContent.trim();
                     
                     // Create elements for the reader view
-                    const tibetanBlock = document.createElement("div");
-                    tibetanBlock.className = "reader-tibetan-block";
-                    tibetanBlock.textContent = tibetanText;
-                    
                     const translationBlock = document.createElement("div");
                     translationBlock.className = "reader-translation-block";
                     translationBlock.textContent = translationText;
                     
-                    // Add to modal body
-                    readerModalBody.appendChild(tibetanBlock);
+                    const tibetanBlock = document.createElement("div");
+                    tibetanBlock.className = "reader-tibetan-block";
+                    tibetanBlock.textContent = tibetanText;
+                    
+                    // Add to modal body - target above source
                     readerModalBody.appendChild(translationBlock);
+                    readerModalBody.appendChild(tibetanBlock);
                 }
             });
             
