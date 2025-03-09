@@ -5,7 +5,7 @@ context = {
     "role_description": "Master translator and pandita",
     "job": "Translate Tibetan into English from Dzogchen texts",
     "output_format": {
-      "structure": "JSON object with kv-pairs",
+      "structure": "Valid JSON object with kv-pair. No ```json or ``` at the beginning or end.",
       "required_sections": [
         "Translation",
         "Alternative Translation",
