@@ -113,7 +113,10 @@ class TranslationApp:
 
         from routes.autosave import autosave
         return autosave(self)
-        
+    
+    def read_csv(self):
+        from utils.read_csv import read_csv
+        return read_csv(self)
 
     def run(self):
         self.app.run(debug=True)

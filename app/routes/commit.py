@@ -4,6 +4,20 @@ def commit(self):
     import os
     import sys
 
+    # Print current working directory for debugging
+    cwd = os.getcwd()
+    print(f"Current working directory: {cwd}")
+    
+    # Print the full path to the file
+    file_path = os.path.join(cwd, "app/data", self.filename)
+    print(f"Full file path: {file_path}")
+    print(f"File exists: {os.path.exists(file_path)}")
+    
+    # Print the full path without app prefix
+    alt_file_path = os.path.join(cwd, "data", self.filename)
+    print(f"Alternative file path: {alt_file_path}")
+    print(f"Alternative file exists: {os.path.exists(alt_file_path)}")
+
     try:
         # Get the current branch name
         current_branch = subprocess.check_output(
@@ -11,9 +25,12 @@ def commit(self):
             universal_newlines=True
         ).strip()
         
-        # Add the file to git
+        # Add the file to git - try with the correct path
+        file_to_add = "data/" + self.filename if os.path.exists(alt_file_path) else "app/data/" + self.filename
+        print(f"Using path for git add: {file_to_add}")
+        
         add_result = subprocess.run(
-            ["git", "add", "app/data/" + self.filename], 
+            ["git", "add", file_to_add], 
             check=True,
             capture_output=True,
             text=True

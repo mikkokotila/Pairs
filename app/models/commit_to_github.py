@@ -1,5 +1,6 @@
 import subprocess
 import sys
+import os
 
 def commit_to_github(filename):
     """
@@ -13,6 +14,17 @@ def commit_to_github(filename):
                and message is a string with details about the operation.
     """
     try:
+        # Print current working directory for debugging
+        cwd = os.getcwd()
+        print(f"Current working directory: {cwd}")
+        
+        # Check which path exists
+        app_data_path = os.path.join(cwd, "app/data", filename)
+        data_path = os.path.join(cwd, "data", filename)
+        
+        file_to_add = "data/" + filename if os.path.exists(data_path) else "app/data/" + filename
+        print(f"Using path for git add: {file_to_add}")
+        
         # Get the current branch name
         current_branch = subprocess.check_output(
             ["git", "rev-parse", "--abbrev-ref", "HEAD"],
@@ -21,7 +33,7 @@ def commit_to_github(filename):
         
         # Add the file to git
         add_result = subprocess.run(
-            ["git", "add", "app/data/" + filename], 
+            ["git", "add", file_to_add], 
             check=True,
             capture_output=True,
             text=True
