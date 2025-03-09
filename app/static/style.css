@@ -596,3 +596,69 @@
            width: 180px; /* Reduce expanded width of search box on smaller screens */
        }
    }
+   
+   .reader-tibetan-block {
+       font-family: 'Noto Serif Tibetan', serif;
+       font-size: 22px;
+       line-height: 1.8;
+       color: #333;
+       margin-bottom: 2px;
+       text-align: left;
+   }
+   
+   .reader-translation-block {
+       font-family: 'EB Garamond', serif;
+       font-size: 20px;
+       line-height: 1.5;
+       color: #444;
+       margin-bottom: 24px;
+       text-align: left;
+   }
+   
+   /* Dark mode support */
+   @media (prefers-color-scheme: dark) {
+       .reader-modal-content {
+           background-color: #1c1c1e;
+       }
+       
+       .reader-modal-header h2 {
+           color: #f5f5f7;
+       }
+       
+       .reader-modal-header {
+           border-bottom-color: #3a3a3c;
+       }
+       
+       .reader-close {
+           color: #8e8e93;
+       }
+       
+       .reader-close:hover {
+           color: #d1d1d6;
+       }
+       
+       .reader-tibetan-block {
+           color: #e5e5ea;
+       }
+       
+       .reader-translation-block {
+           color: #d1d1d6;
+       }
+   }
+   
+   /* Responsive adjustments */
+   @media (max-width: 768px) {
+       .reader-modal-content {
+           width: 95%;
+           margin: 10% auto;
+           padding: 15px;
+       }
+       
+       .reader-tibetan-block {
+           font-size: 20px;
+       }
+       
+       .reader-translation-block {
+           font-size: 18px;
+       }
+   }
