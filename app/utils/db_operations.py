@@ -52,7 +52,23 @@ def update_entry(db_path, filename, index, field, content):
         content: New content for the field
     """
     db = get_db(db_path, filename)
-    db.update({field: content}, doc_ids=[index + 1])  # TinyDB doc_ids start at 1
+    all_docs = db.all()
+    
+    if not all_docs:
+        print(f"Warning: No documents found in database {filename}")
+        return
+    
+    if index >= len(all_docs):
+        print(f"Warning: Index {index} out of range for database {filename} with {len(all_docs)} entries")
+        return
+    
+    # Get the actual document ID (might not be sequential)
+    doc_id = db.all()[index].doc_id
+    print(f"Updating document with ID {doc_id} at index {index} for field {field}")
+    
+    # Update the document with the correct ID
+    result = db.update({field: content}, doc_ids=[doc_id])
+    print(f"Update result: {result}")
 
 def create_entries(db_path, filename, entries):
     """Create new entries in the database

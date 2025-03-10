@@ -2,7 +2,7 @@ def review(self):
         
         import re
         import json
-        from utils.db_operations import update_entry
+        from utils.db_operations import update_entry, get_db
 
         from models.auto_review import auto_review
         
@@ -60,8 +60,12 @@ def review(self):
                 clean_comment = re.sub(r'\[\[\d+\]\]', '', comment)
                 review_dict[row_idx] = clean_comment
 
+        # Get the database and ensure filename is correct
+        filename = self.filename.replace('.csv', '')
+        
         # Update only the rows that have review comments in TinyDB
         for idx, comment in review_dict.items():
-            update_entry(self.db_path, self.filename, idx, 'annotation', comment)
+            print(f"Updating annotation for row {idx} with comment: {comment}")
+            update_entry(self.db_path, filename, idx, 'annotation', comment)
 
         return '', 204

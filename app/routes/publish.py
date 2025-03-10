@@ -6,11 +6,14 @@ def publish(self):
     env_vars = get_env_vars(keys=['service_account_subject', 'service_account_file'],
                             file_name='.env',
                             relative_to_pwd='../../../')
+    
+    # Convert DataFrame to list format expected by publish_to_docs
+    data_list = self.data[['source_string', 'target_string', 'style']].values.tolist()
 
     publish_to_docs(
         '../service-account-file.json',
         env_vars['service_account_subject'],
-        self.data.values.tolist(),
+        data_list,
         self.selected)
 
     return '', 204
