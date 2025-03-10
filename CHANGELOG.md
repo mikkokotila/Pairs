@@ -1,5 +1,12 @@
 # Changelog
 
+## 22:45 on 09-03-2025
+- Improved styling for better user experience
+  - Added more breathing room to the header/nav bar
+  - Positioned source column text in absolute vertical of the cell
+  - Increased target column font size by 10%
+  - Increased target column font weight by 100
+
 ## 22:30 on 09-03-2025
 - Added ability to add new text from GUI
   - Added 'New' button to the navigation menu
