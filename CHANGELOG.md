@@ -1,5 +1,12 @@
 # Changelog
 
+## 22:54 on 10-03-2025
+- Migrated data storage from CSV to TinyDB
+  - Added TinyDB dependency to the project
+  - Created db_operations.py with TinyDB utility functions
+  - Updated routes to use TinyDB instead of CSV files
+  - Modified data structure to use source_string, target_string, style, and annotation
+
 ## 22:30 on 09-03-2025
 - Added ability to add new text from GUI
   - Added 'New' button to the navigation menu

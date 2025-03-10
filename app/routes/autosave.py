@@ -1,19 +1,15 @@
 def autosave(self):
 
     from flask import request, jsonify
-
-    from utils.read_csv import read_csv
+    from utils.db_operations import update_entry, get_all_entries
     
     content = request.json["content"]
     row = request.json["row"]
-
-    data = read_csv(self)
-    data.iloc[row, 1] = content
-
-    data.to_csv(self.csv_file_path + self.filename,
-                index=False,
-                header=False,
-                sep="~",
-                encoding="utf-8")
+    
+    # Get the current filename from the app instance
+    filename = self.filename.replace('.csv', '')
+    
+    # Update the specific field in TinyDB
+    update_entry(self.db_path, filename, row, 'target_string', content)
 
     return jsonify(status="saved")

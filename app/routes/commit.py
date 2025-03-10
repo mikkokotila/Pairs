@@ -1,10 +1,14 @@
 def commit(self):
 
     import subprocess
+    import os
 
     try:
+        # Get correct filename without .csv extension
+        filename = self.filename.replace('.csv', '') + '.json'
+        db_file_path = os.path.join(self.db_path, filename)
         
-        subprocess.run(["git", "add", "data/" + self.filename], check=True)
+        subprocess.run(["git", "add", db_file_path], check=True)
         subprocess.run(["git", "commit", "-m", "Autosave commit"], check=True)
         subprocess.run(["git", "push", "origin", "main"], check=True)
         

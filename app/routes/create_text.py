@@ -1,7 +1,7 @@
 from flask import request, jsonify, session
 import os
 import pandas as pd
-import csv
+from utils.db_operations import create_entries
 
 def create_text(self):
     """
@@ -27,42 +27,35 @@ def create_text(self):
         if not content:
             return jsonify({'status': 'error', 'message': 'Content is required'}), 400
         
-        # Remove .csv extension if it exists in the input name
-        if name.endswith('.csv'):
-            name = name[:-4]
+        # Remove .json extension if it exists in the input name
+        if name.endswith('.json'):
+            name = name[:-5]
             
         # Store the base name (without extension) for session and display
         base_name = name
             
-        # Add .csv extension for the actual file
-        file_name = name + '.csv'
-        
-        # Check if file already exists
-        file_path = os.path.join(self.csv_file_path, file_name)
+        # Add .json extension for checking if file exists
+        file_path = os.path.join(self.db_path, name + '.json')
         if os.path.exists(file_path):
             return jsonify({'status': 'error', 'message': 'A file with this name already exists'}), 400
         
         # Process content - split by newlines and remove empty lines
         lines = [line for line in content.split('\n') if line.strip()]
         
-        # Create DataFrame with Tibetan text, empty translation column, style column, and empty notes column
-        df = pd.DataFrame({
-            'source': lines,
-            'target': [''] * len(lines),
-            'style': ['Normal'] * len(lines),
-            'notes': [''] * len(lines)  # Add fourth column to ensure trailing tilde after "Normal"
-        })
+        # Create entries for TinyDB
+        entries = []
+        for line in lines:
+            entries.append({
+                'source_string': line,
+                'target_string': '',
+                'style': 'Normal',
+                'annotation': []
+            })
         
-        # Save to CSV file with tilde (~) separator, without quoting
-        df.to_csv(file_path, 
-                 index=False, 
-                 header=False, 
-                 sep="~", 
-                 quoting=csv.QUOTE_NONE,
-                 encoding="utf-8",
-                 escapechar='\\')  # Escape character needed when QUOTE_NONE is used
+        # Save to TinyDB
+        create_entries(self.db_path, name, entries)
         
-        # Update session with the new file (without .csv extension)
+        # Update session with the new file name
         session['selected_file'] = base_name
         
         return jsonify({
