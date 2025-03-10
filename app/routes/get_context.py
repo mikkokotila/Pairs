@@ -5,6 +5,7 @@ def get_context(self):
     import os
     import pandas as pd
     from flask import jsonify, request
+    from utils.db_operations import get_all_entries
     
     try:
         # Ensure self.data is available
@@ -13,17 +14,19 @@ def get_context(self):
             if not hasattr(self, 'selected') or self.selected is None:
                 self.all_files = [
                     f.split('.')[0]
-                    for f in os.listdir(self.csv_file_path)
-                    if os.path.isfile(os.path.join(self.csv_file_path, f))
+                    for f in os.listdir(self.db_path)
+                    if os.path.isfile(os.path.join(self.db_path, f)) and f.endswith('.json')
                 ]
                 self.all_files = [f for f in self.all_files if f != 'glossary']
-                self.selected = self.all_files[0]
+                self.selected = self.all_files[0] if self.all_files else None
             
-            # Set the filename and read the CSV
-            self.filename = self.selected + '.csv'
-            self.data = self.read_csv()
-            self.data = self.data.dropna(how='all')
-            self.data = self.data.reset_index(drop=True)
+            # Get the data from TinyDB
+            self.filename = self.selected
+            self.data = get_all_entries(self.db_path, self.selected) if self.selected else None
+            
+            if self.data is not None:
+                self.data = self.data.dropna(how='all')
+                self.data = self.data.reset_index(drop=True)
         
         row_index = int(request.json.get('row_index', 0))
         

@@ -5,6 +5,8 @@ import sys
 sys.path.insert(0, '../../Bokit')
 import bokit
 
+from utils.db_operations import init_db
+
 
 class TranslationApp:
     
@@ -17,6 +19,9 @@ class TranslationApp:
         Session(self.app)
         self.app.secret_key = '1234'
         self.csv_file_path = "data/"
+        
+        # Initialize TinyDB
+        self.db_path = init_db(self)
         
         # Navigational routes
         self.app.add_url_rule("/", "index", self.index, methods=["GET", "POST"])

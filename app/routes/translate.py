@@ -7,7 +7,7 @@ def translate(self):
     from models.auto_translate import auto_translate
     
     # Get the source column values
-    column_values = self.data.iloc[:, 0].astype(str)
+    column_values = self.data['source_string'].astype(str)
 
     # Initialize an empty list to store formatted strings
     formatted_rows = []
