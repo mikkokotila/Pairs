@@ -3,3 +3,5 @@ flask-session==0.5.0
 pandas==2.1.0
 tinydb==4.8.0
 werkzeug==2.3.7 
+bokit
+git+https://github.com/Lotus-King-Research/Padma-Dictionary-Lookup

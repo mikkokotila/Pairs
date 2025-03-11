@@ -4,3 +4,6 @@ flask_session/
 to-do.txt
 service-account-file.json
 **/.DS_Store
+.cursor/
+app/data/*.json
+.DS_Store
