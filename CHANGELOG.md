@@ -25,3 +25,17 @@
   - Implemented a modal for the reader view
   - Formatted content with Tibetan text followed by its translation
   - Added responsive styling for the reader modal
+
+## 23:15 on 11-03-2025
+- Added Lotsawa House integration
+  - Updated "Add Text" functionality to accept Lotsawa House URLs
+  - Created a new route to fetch content from Lotsawa House
+  - Modified placeholder text to indicate the new functionality
+  - Added automatic content extraction from Lotsawa House pages
+
+## 23:30 on 11-03-2025
+- Fixed Tibetan text extraction from Lotsawa House
+  - Improved character encoding handling
+  - Added multiple methods to extract text content
+  - Added User-Agent header to requests
+  - Enhanced text cleaning to preserve Tibetan characters

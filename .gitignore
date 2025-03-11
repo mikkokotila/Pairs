@@ -6,4 +6,5 @@ service-account-file.json
 **/.DS_Store
 .cursor/
 app/data/*.json
+app/data/db/*.json
 .DS_Store
