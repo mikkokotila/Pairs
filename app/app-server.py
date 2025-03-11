@@ -46,6 +46,7 @@ class TranslationApp:
         self.app.add_url_rule("/get-context", "get_context", self.get_context, methods=["POST"])
         self.app.add_url_rule("/autosave", "autosave", self.autosave, methods=["POST"])
         self.app.add_url_rule("/create-text", "create_text", self.create_text, methods=["POST"])
+        self.app.add_url_rule("/fetch-lotsawa", "fetch_lotsawa", self.fetch_lotsawa, methods=["POST"])
 
     ## Navigation routes
     def index(self):
@@ -131,6 +132,10 @@ class TranslationApp:
         from routes.create_text import create_text
         return create_text(self)
         
+    def fetch_lotsawa(self):
+        
+        from routes.fetch_lotsawa import fetch_lotsawa
+        return fetch_lotsawa(self)
 
     def run(self):
         self.app.run(debug=True)

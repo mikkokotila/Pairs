@@ -57,7 +57,7 @@
         
         <div class="form-group">
             <label for="text-content" class="form-label">Tibetan Text Content</label>
-            <textarea id="text-content" class="form-textarea" placeholder="Paste or type Tibetan text here"></textarea>
+            <textarea id="text-content" class="form-textarea" placeholder="Paste or type lines of Tibetan text or a Lotsawa House link here"></textarea>
             <div id="content-error" class="error-message"></div>
         </div>
         
@@ -76,6 +76,57 @@
             const nameError = document.getElementById('name-error');
             const contentError = document.getElementById('content-error');
             const successMessage = document.getElementById('success-message');
+            
+            // Function to check if a string is a Lotsawa House URL
+            function isLotsawaHouseUrl(text) {
+                return text.trim().startsWith('http') && text.includes('lotsawahouse.org/bo/');
+            }
+            
+            // Function to fetch content from Lotsawa House URL
+            function fetchLotsawaContent(url) {
+                return fetch('/fetch-lotsawa', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ url: url })
+                })
+                .then(response => response.json());
+            }
+            
+            // Add event listener for paste or input in the text content field
+            textContentInput.addEventListener('input', function() {
+                const content = textContentInput.value.trim();
+                
+                // Check if the content is a Lotsawa House URL
+                if (isLotsawaHouseUrl(content)) {
+                    // Show loading indicator
+                    contentError.textContent = 'Fetching content from Lotsawa House...';
+                    contentError.style.display = 'block';
+                    contentError.style.color = '#666'; // Gray color for info message
+                    
+                    // Fetch content from the URL
+                    fetchLotsawaContent(content)
+                        .then(data => {
+                            if (data.status === 'success') {
+                                // Replace the URL with the fetched content
+                                textContentInput.value = data.content;
+                                contentError.style.display = 'none';
+                            } else {
+                                // Show error message
+                                contentError.textContent = data.message;
+                                contentError.style.color = '#ff3b30'; // Red color for error
+                                contentError.style.display = 'block';
+                            }
+                        })
+                        .catch(error => {
+                            contentError.textContent = 'Error fetching content. Please try again.';
+                            contentError.style.color = '#ff3b30'; // Red color for error
+                            contentError.style.display = 'block';
+                            console.error('Error:', error);
+                        });
+                }
+            });
             
             addTextButton.addEventListener('click', function() {
                 // Reset error messages
