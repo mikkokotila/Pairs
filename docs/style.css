@@ -1,0 +1,187 @@
+/* Pairs Documentation Styles */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2c3e50;
+  --text-color: #333333;
+  --background-color: #ffffff;
+  --code-background: #f5f7f9;
+  --border-color: #e1e4e8;
+}
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  color: var(--secondary-color);
+}
+
+h1 {
+  font-size: 2.2em;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 0.3em;
+}
+
+h2 {
+  font-size: 1.8em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+code {
+  font-family: 'IBM Plex Mono', monospace;
+  background-color: var(--code-background);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+}
+
+pre {
+  background-color: var(--code-background);
+  padding: 1em;
+  border-radius: 5px;
+  overflow-x: auto;
+}
+
+blockquote {
+  border-left: 4px solid var(--primary-color);
+  margin-left: 0;
+  padding-left: 1em;
+  color: #666;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+}
+
+table, th, td {
+  border: 1px solid var(--border-color);
+}
+
+th, td {
+  padding: 0.5em;
+  text-align: left;
+}
+
+th {
+  background-color: var(--code-background);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1em auto;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+}
+
+.note {
+  background-color: #e7f5ff;
+  border-left: 4px solid #4dabf7;
+  padding: 1em;
+  margin: 1em 0;
+  border-radius: 0 5px 5px 0;
+}
+
+.warning {
+  background-color: #fff3bf;
+  border-left: 4px solid #ffd43b;
+  padding: 1em;
+  margin: 1em 0;
+  border-radius: 0 5px 5px 0;
+}
+
+.tip {
+  background-color: #ebfbee;
+  border-left: 4px solid #40c057;
+  padding: 1em;
+  margin: 1em 0;
+  border-radius: 0 5px 5px 0;
+}
+
+.related-pages {
+  margin-top: 2em;
+  padding-top: 1em;
+  border-top: 1px solid var(--border-color);
+}
+
+.related-pages h3 {
+  font-size: 1.2em;
+}
+
+.next-steps {
+  margin-top: 2em;
+  padding-top: 1em;
+  border-top: 1px solid var(--border-color);
+}
+
+.next-steps h3 {
+  font-size: 1.2em;
+}
+
+/* Navigation sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  overflow-y: auto;
+  background-color: var(--secondary-color);
+  color: white;
+  padding: 1em;
+}
+
+.sidebar a {
+  color: white;
+  display: block;
+  padding: 0.5em 0;
+}
+
+.sidebar a:hover {
+  color: var(--primary-color);
+}
+
+.content {
+  margin-left: 280px;
+  padding: 2em;
+  max-width: 800px;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
+  }
+  
+  .content {
+    margin-left: 0;
+    padding: 1em;
+  }
+} 

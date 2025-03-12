@@ -14,6 +14,7 @@
   <a href="#installation">Installation</a> •
   <a href="#usage">Usage</a> •
   <a href="#configuration">Configuration</a> •
+  <a href="#documentation">Documentation</a> •
   <a href="#api">API</a> •
   <a href="#contributing">Contributing</a> •
   <a href="#license">License</a>
@@ -142,6 +143,24 @@ The system provides several API endpoints:
 - `/explain-grammar`: Get grammar explanations for Tibetan constructions
 - `/get-context`: Retrieve context for a row
 - `/autosave`: Save changes automatically
+
+## Documentation
+
+Comprehensive documentation for Pairs is available in the `/docs` directory. The documentation is organized into the following sections:
+
+- **Getting Started**: Installation, first-time setup, and interface overview
+- **Core Functionality**: File management, navigation, and translation workflow
+- **Translation Interface**: Layout, editing features, and keyboard shortcuts
+- **Context Menu Tools**: Research keyword, suggest translation, lookup glossary, etc.
+- **Reader View**: Clean presentation of translations
+- **Advanced Features**: Autosave, search functionality, and integrations
+- **Workflow Guides**: Adding texts, translating, reviewing, and publishing
+- **Troubleshooting**: Solutions for common issues
+- **Glossary**: Definitions of key terms and concepts
+
+To view the documentation:
+1. Navigate to the `/docs` directory
+2. Open `index.md` to start browsing the documentation
 
 ## Contributing
 

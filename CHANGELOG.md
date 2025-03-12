@@ -1,5 +1,14 @@
 # Changelog
 
+## 16:45 on 12-03-2025
+- Added structured documentation
+  - Created comprehensive documentation structure in /docs directory
+  - Added Getting Started guides (installation, first-time setup, interface overview)
+  - Added Core Functionality documentation (file management, navigation, translation workflow)
+  - Added Translation Interface documentation (layout, editing features)
+  - Created documentation styling with IBM Plex Sans font
+  - Added images directory for documentation screenshots
+
 ## 22:54 on 10-03-2025
 - Migrated data storage from CSV to TinyDB
   - Added TinyDB dependency to the project
