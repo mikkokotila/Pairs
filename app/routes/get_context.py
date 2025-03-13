@@ -39,31 +39,41 @@ def get_context(self):
             # Get the value from the fourth column (index 3)
             context_value = self.data.iloc[row_index, 3]
             
-            # Check if the annotation is empty (None, NaN, empty string, or empty list)
-            is_empty = (
-                pd.isna(context_value) or 
-                context_value is None or 
-                context_value == "" or 
-                (isinstance(context_value, list) and len(context_value) == 0) or
-                str(context_value).strip() == ""
-            )
-            
-            if is_empty:
+            # Simple check for empty values
+            if pd.isna(context_value) or context_value is None or context_value == "":
                 return jsonify({"result": "", "has_content": False})
+            
+            # Handle list type
+            if isinstance(context_value, list):
+                if len(context_value) == 0:
+                    return jsonify({"result": "", "has_content": False})
+                try:
+                    # Safely convert list items to strings
+                    safe_items = []
+                    for item in context_value:
+                        if item is not None:
+                            safe_items.append(str(item))
+                    context_value = "<br>".join(safe_items)
+                except Exception as e:
+                    print(f"Error converting list to string: {str(e)}")
+                    return jsonify({"result": "", "has_content": False})
             else:
-                # Convert to string if it's not already
-                if isinstance(context_value, list):
-                    # If it's a list, join the elements with line breaks
-                    context_value = "<br>".join(str(item) for item in context_value)
-                else:
+                # Convert to string safely
+                try:
                     context_value = str(context_value)
-                
-                # Add heading and content with the new heading "Annotations"
-                formatted_content = f"<h3>Annotations</h3><div class='review-content'>{context_value}</div>"
-                return jsonify({"result": formatted_content, "has_content": True})
+                    if context_value.strip() == "":
+                        return jsonify({"result": "", "has_content": False})
+                except Exception as e:
+                    print(f"Error converting value to string: {str(e)}")
+                    return jsonify({"result": "", "has_content": False})
+            
+            # Add heading and content with the new heading "Annotations"
+            formatted_content = f"<h3>Annotations</h3><div class='review-content'>{context_value}</div>"
+            return jsonify({"result": formatted_content, "has_content": True})
         else:
             return jsonify({"result": "", "has_content": False})
     except Exception as e:
         import traceback
         traceback.print_exc()
+        print(f"Error in get_context: {str(e)}")
         return jsonify({"result": f"Error: {str(e)}", "has_content": False}), 500
