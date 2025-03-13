@@ -53,9 +53,9 @@ def auto_review(messages: list,
 
     system = " ".join(f"{key}: {value}; " for key, value in context.items())
 
-    api_key = get_env_vars(keys=['api_key'],
+    api_key = get_env_vars(keys=['claude_api_key'],
                            file_name='.env',
-                           relative_to_pwd='../../../')['api_key']
+                           relative_to_pwd='../../../')['claude_api_key']
 
     reply = translate_with_claude(api_key,
                                   system,

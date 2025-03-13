@@ -1,5 +1,10 @@
 # Changelog
 
+## 15:13 on 13-03-2025
+- Update .env variable names
+  - Updated variable names in `.env`
+  - Updated variables names in all the functions
+
 ## 22:54 on 10-03-2025
 - Migrated data storage from CSV to TinyDB
   - Added TinyDB dependency to the project

@@ -46,9 +46,9 @@ def explain_grammar(keyword, context=context, dictionary_window=800):
     
     messages = prepare_messages_for_translate([keyword])
 
-    api_key = get_env_vars(keys=['api_key'],
+    api_key = get_env_vars(keys=['claude_api_key'],
                            file_name='.env',
-                           relative_to_pwd='../../../')['api_key']
+                           relative_to_pwd='../../../')['claude_api_key']
 
     reply = search_keyword_meaning(api_key, messages, context)
 
