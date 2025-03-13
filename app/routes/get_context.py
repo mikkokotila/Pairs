@@ -30,34 +30,40 @@ def get_context(self):
         
         row_index = int(request.json.get('row_index', 0))
         
-        # Check if the DataFrame has at least 4 columns (for review comments)
-        
         # Ensure the row index is valid
         if row_index >= len(self.data):
-           
             return jsonify({"result": "", "has_content": False})
         
-        # Check if we have a fourth column (index 3) for review comments
+        # Check if we have a fourth column (index 3) for annotations
         if self.data.shape[1] > 3:
             # Get the value from the fourth column (index 3)
             context_value = self.data.iloc[row_index, 3]
             
+            # Check if the annotation is empty (None, NaN, empty string, or empty list)
+            is_empty = (
+                pd.isna(context_value) or 
+                context_value is None or 
+                context_value == "" or 
+                (isinstance(context_value, list) and len(context_value) == 0) or
+                str(context_value).strip() == ""
+            )
             
-            # Convert to string and handle NaN/None values
-            if pd.isna(context_value) or context_value is None or context_value == "":
-                
+            if is_empty:
                 return jsonify({"result": "", "has_content": False})
             else:
-                context_value = str(context_value)
+                # Convert to string if it's not already
+                if isinstance(context_value, list):
+                    # If it's a list, join the elements with line breaks
+                    context_value = "<br>".join(str(item) for item in context_value)
+                else:
+                    context_value = str(context_value)
                 
-                # Add heading and content
-                formatted_content = f"<h3>Review Comment</h3><div class='review-content'>{context_value}</div>"
+                # Add heading and content with the new heading "Annotations"
+                formatted_content = f"<h3>Annotations</h3><div class='review-content'>{context_value}</div>"
                 return jsonify({"result": formatted_content, "has_content": True})
         else:
-            
             return jsonify({"result": "", "has_content": False})
     except Exception as e:
-        
         import traceback
         traceback.print_exc()
         return jsonify({"result": f"Error: {str(e)}", "has_content": False}), 500

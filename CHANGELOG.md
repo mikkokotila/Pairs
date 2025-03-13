@@ -1,5 +1,12 @@
 # Changelog
 
+## 20:15 on 13-03-2025
+- Fixed annotation field visibility in context pane
+  - Changed heading from "Review Comment" to "Annotations"
+  - Added proper handling for empty annotation values
+  - Improved display of annotation content in the context pane
+  - Updated "No annotations" message to be consistent with the new heading
+
 ## 19:45 on 13-03-2025
 - Fixed autosave to save all changed rows
   - Modified translate.py to save all translated rows to the database

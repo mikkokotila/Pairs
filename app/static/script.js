@@ -492,8 +492,8 @@ document.addEventListener("DOMContentLoaded", function() {
             } else {
                 // If no content, display "No annotations" message
                 console.log("No content, displaying 'No annotations'");
-                const noAnnotationsHtml = `<h3 class="no-annotations-heading">No annotations</h3>
-                <div class="no-annotations-content">No review comments available for this text.</div>`;
+                const noAnnotationsHtml = `<h3 class="no-annotations-heading">Annotations</h3>
+                <div class="no-annotations-content">No annotations available for this text.</div>`;
                 updateContextPane(noAnnotationsHtml, false, true); // true for HTML content
             }
         })
