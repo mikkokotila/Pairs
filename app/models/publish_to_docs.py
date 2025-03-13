@@ -123,9 +123,9 @@ def publish_to_docs(service_account_file,
 
     from utils.get_env_vars import get_env_vars
 
-    template_doc_id = get_env_vars(keys=['template_doc_id'],
+    template_doc_id = get_env_vars(keys=['google_template_doc_id'],
                             file_name='.env',
-                            relative_to_pwd='../../../')['template_doc_id']
+                            relative_to_pwd='../../../')['google_template_doc_id']
 
     # Copy the template document
     copied_file = drive_service.files().copy(

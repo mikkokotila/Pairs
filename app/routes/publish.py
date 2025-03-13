@@ -3,7 +3,8 @@ def publish(self):
     from utils.get_env_vars import get_env_vars
     from models.publish_to_docs import publish_to_docs
 
-    env_vars = get_env_vars(keys=['service_account_subject', 'service_account_file'],
+    env_vars = get_env_vars(keys=['google_service_account_subject',
+                                  'google_service_account_file'],
                             file_name='.env',
                             relative_to_pwd='../../../')
     
