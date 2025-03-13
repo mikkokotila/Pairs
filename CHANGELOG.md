@@ -1,5 +1,12 @@
 # Changelog
 
+## 16:45 on 13-03-2025
+- Fixed Claude API authentication issue
+  - Added proper error handling for missing API key
+  - Created .env.template file with instructions for setting up API key
+  - Updated README.md with detailed API key setup instructions
+  - Improved error messages for better user experience
+
 ## 22:54 on 10-03-2025
 - Migrated data storage from CSV to TinyDB
   - Added TinyDB dependency to the project

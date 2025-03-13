@@ -42,6 +42,8 @@ def auto_translate(messages: list,
     str: The translated response from the API.
     '''
 
+    import os
+    import json
     from utils.get_env_vars import get_env_vars
 
     from bokit.workflows.prepare_messages_for_translate import prepare_messages_for_translate
@@ -51,14 +53,32 @@ def auto_translate(messages: list,
 
     system = " ".join(f"{key}: {value}; " for key, value in context.items())
 
-    api_key = get_env_vars(keys=['api_key'],
+    # Try to get API key from environment variables
+    env_vars = get_env_vars(keys=['api_key'],
                            file_name='.env',
-                           relative_to_pwd='../../../')['api_key']
+                           relative_to_pwd='../../../')
+    
+    api_key = env_vars.get('api_key')
+    
+    # Check if API key is available
+    if not api_key:
+        # Return a JSON error message if API key is not found
+        error_message = {
+            "Translation": "ERROR: Claude API key not found. Please add your API key to the .env file in the parent directory with the format 'api_key=your_api_key_here'."
+        }
+        return json.dumps(error_message)
 
-    reply = translate_with_claude(api_key,
-                                  system,
-                                  messages,
-                                  max_tokens=10000,
-                                  model="claude-3-7-sonnet-20250219")
-
-    return reply[0].text
+    try:
+        reply = translate_with_claude(api_key,
+                                    system,
+                                    messages,
+                                    max_tokens=10000,
+                                    model="claude-3-7-sonnet-20250219")
+        
+        return reply[0].text
+    except Exception as e:
+        # Return a JSON error message if there's an exception
+        error_message = {
+            "Translation": f"ERROR: Failed to translate with Claude API. Error: {str(e)}"
+        }
+        return json.dumps(error_message)

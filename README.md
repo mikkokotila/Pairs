@@ -59,8 +59,8 @@ The system addresses the unique challenges of translating Tibetan texts, includi
 
 2. Create and activate a virtual environment:
    ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   conda create -n pairs python=3.10
+   conda activate pairs
    ```
 
 3. Install dependencies:
@@ -69,19 +69,21 @@ The system addresses the unique challenges of translating Tibetan texts, includi
    ```
 
 4. Set up environment variables:
-   Create a `.env` file in the root directory with the following:
-   ```
-   api_key=your_claude_api_key
-   service_account_subject=your_service_account_email
-   service_account_file=path_to_service_account_file.json
+   ```bash
+   # Copy the template .env file
+   cp .env.template .env
+   
+   # Edit the .env file and add your API keys
+   # Replace 'your_api_key_here' with your actual Claude API key
    ```
 
-5. Create a Google Cloud service account file:
-   - Follow the [official Google Cloud documentation](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#creating) to create a service account key
-   - Download the JSON key file and save it in your project directory
-   - Update the `service_account_file` path in your `.env` file
+   The .env file should contain:
+   ```
+   # Claude API Key (required for translation)
+   api_key=your_api_key_here
+   ```
 
-6. Run the application:
+5. Run the application:
    ```bash
    python app/run.py
    ```
