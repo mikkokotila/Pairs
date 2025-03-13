@@ -5,6 +5,7 @@ def translate(self):
 
     from flask import render_template
     from models.auto_translate import auto_translate
+    from utils.db_operations import update_entry
     
     # Get the source column values
     column_values = self.data['source_string'].astype(str)
@@ -34,6 +35,11 @@ def translate(self):
     text = [re.sub(r'\[\[\d+\]\]', '', i) for i in text[1:]]
 
     self.data.iloc[:, 1] = text
+
+    # Save all translated cells to the database
+    filename = self.filename.replace('.csv', '')
+    for i, translation in enumerate(text):
+        update_entry(self.db_path, filename, i, 'target_string', translation)
 
     return render_template('index.html',
                             rows=self.data.values.tolist(),

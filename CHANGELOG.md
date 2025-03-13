@@ -1,5 +1,10 @@
 # Changelog
 
+## 15:30 on 13-03-2025
+- Fixed autosaving for translated cells
+  - Modified translate.py to save all translated cells to the database
+  - Ensured all cells with values are saved after translation, not just manually selected ones
+
 ## 22:54 on 10-03-2025
 - Migrated data storage from CSV to TinyDB
   - Added TinyDB dependency to the project
