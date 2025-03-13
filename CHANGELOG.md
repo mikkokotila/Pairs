@@ -5,6 +5,8 @@
   - Modified translate.py to save all translated rows to the database
   - Added error handling for database operations
   - Ensures changes from Translate function are properly saved
+  - Fixed JSONDecodeError by adding robust error handling for API responses
+  - Added fallback mechanisms when response parsing fails
 
 ## 15:13 on 13-03-2025
 - Update .env variable names

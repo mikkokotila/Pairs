@@ -23,8 +23,21 @@ def translate(self):
     text = auto_translate([result_string])
     response_text = f"{text}"
 
-    text = json.loads(response_text)['Translation']
+    # Add error handling for JSON parsing
+    try:
+        # Try to parse as JSON first
+        parsed_json = json.loads(response_text)
+        if isinstance(parsed_json, dict) and 'Translation' in parsed_json:
+            text = parsed_json['Translation']
+        else:
+            # If JSON doesn't have 'Translation' key, use the whole response
+            text = response_text
+    except json.JSONDecodeError:
+        # If not valid JSON, use the response text directly
+        print(f"JSONDecodeError: Could not parse response as JSON. Using raw response.")
+        text = response_text
 
+    # Split the text by the row markers
     text = re.split(r'(?=\[\[)', text)
     
     '''
@@ -32,7 +45,14 @@ def translate(self):
         print(str(i), text[i+1])
     '''
 
-    text = [re.sub(r'\[\[\d+\]\]', '', i) for i in text[1:]]
+    # Make sure we have at least one element after splitting
+    if len(text) > 1:
+        # Remove the row markers and use the translated text
+        text = [re.sub(r'\[\[\d+\]\]', '', i) for i in text[1:]]
+    else:
+        # If splitting failed, create empty translations
+        text = [''] * len(column_values)
+        print("Warning: Could not parse translations from response.")
 
     # Update the dataframe with the translated text
     self.data.iloc[:, 1] = text
