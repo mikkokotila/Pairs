@@ -53,6 +53,14 @@
   - Added User-Agent header to requests
   - Enhanced text cleaning to preserve Tibetan characters
 
+## 13:02 on 14-03-2025
+
+- Made Codecov integration optional in GitHub Actions workflow
+  - Added continue-on-error flag to prevent workflow failures
+  - Removed fail_ci_if_error flag from Codecov step
+  - Added fallback for coverage report generation in PR summary
+  - Ensured workflow completes successfully even without Codecov token
+
 ## 13:00 on 14-03-2025
 
 - Further improved GitHub Actions workflow reliability

@@ -34,9 +34,9 @@ jobs:
         
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v4
+      continue-on-error: true
       with:
         file: ./coverage.xml
-        fail_ci_if_error: true
         token: ${{ secrets.CODECOV_TOKEN }}
         
     - name: Generate coverage report
@@ -45,4 +45,4 @@ jobs:
         echo "### Test Coverage Report" >> $GITHUB_STEP_SUMMARY
         echo "| Category | Coverage |" >> $GITHUB_STEP_SUMMARY
         echo "| --- | --- |" >> $GITHUB_STEP_SUMMARY
-        coverage report | grep TOTAL | awk '{print "| Total | " $4 " |"}' >> $GITHUB_STEP_SUMMARY 
+        coverage report | grep TOTAL | awk '{print "| Total | " $4 " |"}' >> $GITHUB_STEP_SUMMARY || echo "| Total | N/A |" >> $GITHUB_STEP_SUMMARY 
