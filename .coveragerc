@@ -22,3 +22,6 @@ exclude_lines =
 
 [html]
 directory = coverage_html_report 
+
+[xml]
+output = coverage.xml 
