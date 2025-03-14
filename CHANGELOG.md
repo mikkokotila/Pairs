@@ -53,6 +53,13 @@
   - Added User-Agent header to requests
   - Enhanced text cleaning to preserve Tibetan characters
 
+## 13:48 on 14-03-2025
+
+- Fixed HTML rendering in context pane
+  - Modified context_template.html to properly render HTML content using the |safe filter
+  - Ensures proper display of styled "No annotations for this row" message
+  - Improves visual consistency in the context pane
+
 ## 13:44 on 14-03-2025
 
 - Fixed annotation field visibility in context pane
