@@ -201,6 +201,13 @@
        margin: 4px 0 6px 0;
    }
    
+   /* Styling for "No annotations for this row" message */
+   .no-annotations-text {
+       font-style: italic;
+       color: #a0a0a0;  /* Light gray color */
+       font-size: 20px; /* Slightly smaller than regular context text */
+   }
+   
    .context-list {
        padding-left: 21px;
        margin: 4px 0 6px 0;

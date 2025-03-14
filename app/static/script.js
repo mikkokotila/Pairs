@@ -486,15 +486,13 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(data => {
             console.log("Response data:", data);
             if (data.has_content) {
-                // If there's content, display it (already formatted with heading)
+                // If there's content, display it (rendered HTML from template)
                 console.log("Has content, displaying:", data.result);
                 updateContextPane(data.result, false, true); // true for HTML content
             } else {
-                // If no content, display "No annotations" message
-                console.log("No content, displaying 'No annotations'");
-                const noAnnotationsHtml = `<h3 class="no-annotations-heading">No annotations</h3>
-                <div class="no-annotations-content">No review comments available for this text.</div>`;
-                updateContextPane(noAnnotationsHtml, false, true); // true for HTML content
+                // If no content, display empty context pane
+                console.log("No content, clearing context pane");
+                updateContextPane("", false);
             }
         })
         .catch(error => {

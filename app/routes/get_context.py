@@ -4,7 +4,7 @@ def get_context(self):
     
     import os
     import pandas as pd
-    from flask import jsonify, request
+    from flask import jsonify, request, render_template
     from utils.db_operations import get_all_entries
     
     try:
@@ -30,34 +30,52 @@ def get_context(self):
         
         row_index = int(request.json.get('row_index', 0))
         
-        # Check if the DataFrame has at least 4 columns (for review comments)
-        
         # Ensure the row index is valid
         if row_index >= len(self.data):
-           
             return jsonify({"result": "", "has_content": False})
         
-        # Check if we have a fourth column (index 3) for review comments
-        if self.data.shape[1] > 3:
-            # Get the value from the fourth column (index 3)
-            context_value = self.data.iloc[row_index, 3]
+        # Get the annotation field for the specified row
+        # The annotation field is a column in the DataFrame
+        if 'annotation' in self.data.columns:
+            annotation_value = self.data.iloc[row_index]['annotation']
             
-            
-            # Convert to string and handle NaN/None values
-            if pd.isna(context_value) or context_value is None or context_value == "":
-                
-                return jsonify({"result": "", "has_content": False})
+            # Check if the annotation is a list (as per the database structure)
+            if isinstance(annotation_value, list):
+                # If it's a list, check if it's empty
+                if not annotation_value:
+                    # Empty list, no annotations
+                    context_data = {
+                        "Annotations": "<span class='no-annotations-text'>No annotations for this row</span>"
+                    }
+                else:
+                    # List has items, render them
+                    context_data = {
+                        "Annotations": annotation_value
+                    }
             else:
-                context_value = str(context_value)
-                
-                # Add heading and content
-                formatted_content = f"<h3>Review Comment</h3><div class='review-content'>{context_value}</div>"
-                return jsonify({"result": formatted_content, "has_content": True})
-        else:
+                # If it's not a list or it's None/NaN
+                if pd.isna(annotation_value) or annotation_value is None or annotation_value == "":
+                    context_data = {
+                        "Annotations": "<span class='no-annotations-text'>No annotations for this row</span>"
+                    }
+                else:
+                    # Convert to string if it's not already
+                    context_data = {
+                        "Annotations": str(annotation_value)
+                    }
             
-            return jsonify({"result": "", "has_content": False})
+            # Render the context template with the data
+            rendered_html = render_template('context_template.html', data=context_data)
+            return jsonify({"result": rendered_html, "has_content": True})
+        else:
+            # If annotation column doesn't exist
+            context_data = {
+                "Annotations": "<span class='no-annotations-text'>No annotations for this row</span>"
+            }
+            rendered_html = render_template('context_template.html', data=context_data)
+            return jsonify({"result": rendered_html, "has_content": True})
+            
     except Exception as e:
-        
         import traceback
         traceback.print_exc()
         return jsonify({"result": f"Error: {str(e)}", "has_content": False}), 500
