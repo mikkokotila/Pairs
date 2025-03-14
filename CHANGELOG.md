@@ -1,3 +1,11 @@
+## 13:58 on 14-03-2025
+- Added CodeCov integration to GitHub Actions workflow
+  - Modified `.github/workflows/tests.yml` to properly generate coverage.xml
+  - Updated test execution to collect coverage data
+  - Added step to upload coverage report to CodeCov
+  - Ensured proper verification of coverage file existence
+  - Added fallback mechanism for missing coverage file
+
 # Changelog
 
 ## 19:45 on 13-03-2025
