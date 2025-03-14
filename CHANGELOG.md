@@ -1,6 +1,7 @@
 ## 19:30 on 14-03-2024
-- Updated pandas dependency for Python 3.12 compatibility
+- Updated dependencies for Python 3.12 compatibility
   - Upgraded pandas from 2.1.0 to 2.2.1
+  - Added missing IPython dependency
   - Resolves C extension compilation errors with Python 3.12
   - Ensures compatibility with the latest Python version
   - Maintains backward compatibility with existing code

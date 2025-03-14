@@ -7,3 +7,4 @@ bokit
 git+https://github.com/Lotus-King-Research/Padma-Dictionary-Lookup
 beautifulsoup4==4.13.3
 requests==2.32.3
+ipython==8.22.1
