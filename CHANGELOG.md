@@ -1,6 +1,7 @@
 ## 14:10 on 14-03-2025
 - Fixed Python package structure for testing
   - Added missing `__init__.py` to utils directory
+  - Added missing `__init__.py` to models directory
   - Fixed import issues when running tests
   - Ensures proper module resolution during test execution
   - Improves compatibility with pytest and coverage tools
