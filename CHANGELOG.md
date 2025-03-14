@@ -1,3 +1,10 @@
+## 19:30 on 14-03-2024
+- Updated pandas dependency for Python 3.12 compatibility
+  - Upgraded pandas from 2.1.0 to 2.2.1
+  - Resolves C extension compilation errors with Python 3.12
+  - Ensures compatibility with the latest Python version
+  - Maintains backward compatibility with existing code
+
 ## 14:25 on 14-03-2025
 - Fixed GitHub Actions workflow pytest command line error
   - Resolved exit code 4 issue by aligning with pytest.ini configuration
