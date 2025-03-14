@@ -3,6 +3,7 @@
   - Upgraded pandas from 2.1.0 to 2.2.1
   - Added missing IPython dependency
   - Added missing python-dotenv dependency
+  - Added missing anthropic dependency
   - Resolves C extension compilation errors with Python 3.12
   - Ensures compatibility with the latest Python version
   - Maintains backward compatibility with existing code
