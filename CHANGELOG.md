@@ -53,6 +53,15 @@
   - Added User-Agent header to requests
   - Enhanced text cleaning to preserve Tibetan characters
 
+## 13:44 on 14-03-2025
+
+- Fixed annotation field visibility in context pane
+  - Modified get_context.py to properly access the annotation field from the database
+  - Updated the context pane to display "Annotations" as the heading
+  - Added proper handling for empty annotations
+  - Improved the display of annotation lists
+  - Fixes issue #37
+
 ## 13:29 on 14-03-2025
 
 - Fixed routes to redirect to root path
