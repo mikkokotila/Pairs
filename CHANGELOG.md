@@ -1,3 +1,11 @@
+## 14:25 on 14-03-2025
+- Fixed GitHub Actions workflow pytest command line error
+  - Resolved exit code 4 issue by aligning with pytest.ini configuration
+  - Simplified test execution to a single step with coverage
+  - Added --no-cov-on-fail flag to ensure tests run even if coverage fails
+  - Added error handling for coverage.xml generation
+  - Ensures consistent behavior between local and CI environments
+
 ## 14:20 on 14-03-2025
 - Further improved GitHub Actions workflow reliability
   - Separated test execution from coverage generation
