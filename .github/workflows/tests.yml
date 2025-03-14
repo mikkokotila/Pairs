@@ -32,7 +32,7 @@ jobs:
     - name: Run tests and generate coverage
       run: |
         # First, run pytest with coverage to collect data
-        python -m pytest -v tests/ --cov=app --cov-report=term || true
+        python -m pytest -v tests/ --cov=app --cov-report=term --no-cov-on-fail || true
         
         # Then, explicitly generate the coverage.xml file
         python -m coverage xml
