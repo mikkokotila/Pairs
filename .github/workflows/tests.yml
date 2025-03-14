@@ -46,7 +46,7 @@ jobs:
           echo "Coverage file does not exist, creating an empty one for CodeCov"
           echo '<?xml version="1.0" ?><coverage version="5.5"></coverage>' > coverage.xml
         fi
-        
+
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v4
       continue-on-error: true
@@ -66,4 +66,4 @@ jobs:
           coverage report | grep TOTAL | awk '{print "| Total | " $4 " |"}' >> $GITHUB_STEP_SUMMARY || echo "| Total | N/A |" >> $GITHUB_STEP_SUMMARY
         else
           echo "| Total | Coverage file not found |" >> $GITHUB_STEP_SUMMARY
-        fi 
+        fi
