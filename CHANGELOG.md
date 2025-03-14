@@ -53,6 +53,14 @@
   - Added User-Agent header to requests
   - Enhanced text cleaning to preserve Tibetan characters
 
+## 12:30 on 14-03-2025
+
+- Enhanced GitHub Actions workflow for testing
+  - Updated GitHub Actions to latest versions
+  - Added dependency caching for faster workflow execution
+  - Added test coverage report in PR summary
+  - Added GitHub Actions workflow badge to README.md
+
 ## 12:18 on 14-03-2025
 
 - Added comprehensive testing suite with unit tests, integration tests, and data integrity tests

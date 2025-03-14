@@ -10,6 +10,7 @@
 
 <p align="center">
   <!-- Add badges here when available -->
+  <a href="https://github.com/mikkokotila/Pairs/actions/workflows/tests.yml"><img src="https://github.com/mikkokotila/Pairs/actions/workflows/tests.yml/badge.svg" alt="Tests"></a>
   <a href="#key-features">Key Features</a> •
   <a href="#installation">Installation</a> •
   <a href="#usage">Usage</a> •
