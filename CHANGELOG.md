@@ -1,3 +1,10 @@
+## 14:10 on 14-03-2025
+- Fixed Python package structure for testing
+  - Added missing `__init__.py` to utils directory
+  - Fixed import issues when running tests
+  - Ensures proper module resolution during test execution
+  - Improves compatibility with pytest and coverage tools
+
 ## 13:58 on 14-03-2025
 - Added CodeCov integration to GitHub Actions workflow
   - Modified `.github/workflows/tests.yml` to properly generate coverage.xml
