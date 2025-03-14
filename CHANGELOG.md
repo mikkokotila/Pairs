@@ -53,6 +53,13 @@
   - Added User-Agent header to requests
   - Enhanced text cleaning to preserve Tibetan characters
 
+## 12:55 on 14-03-2025
+
+- Simplified testing workflow
+  - Removed Python 3.9 and 3.10 from test matrix
+  - Standardized on Python 3.11 for all tests
+  - Reduced CI build time by focusing on a single Python version
+
 ## 12:30 on 14-03-2025
 
 - Enhanced GitHub Actions workflow for testing
