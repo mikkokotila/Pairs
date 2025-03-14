@@ -2,6 +2,7 @@ def publish(self):
 
     from utils.get_env_vars import get_env_vars
     from models.publish_to_docs import publish_to_docs
+    from flask import redirect, url_for
 
     env_vars = get_env_vars(keys=['google_service_account_subject',
                                   'google_service_account_file'],
@@ -17,4 +18,5 @@ def publish(self):
         data_list,
         self.selected)
 
-    return '', 204
+    # Redirect to the root path instead of returning an empty response
+    return redirect(url_for('index'))
