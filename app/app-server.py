@@ -138,7 +138,7 @@ class TranslationApp:
         return fetch_lotsawa(self)
 
     def run(self):
-        self.app.run(debug=True)
+        self.app.run(debug=True, port=5005)
 
 
 if __name__ == "__main__":

@@ -1,3 +1,11 @@
+## 16:45 on 14-03-2025
+- Fixed Anthropic client error in keyword research
+  - Upgraded Anthropic library from 0.23.1 to 0.49.0
+  - Fixed 'proxies' parameter issue in Anthropic client
+  - Added error handling for empty result lists in keyword_research.py
+  - Added error handling for dictionary server connection issues
+  - Changed app server port from 5000 to 5005 to avoid conflicts
+
 ## 19:30 on 14-03-2024
 - Updated dependencies for Python 3.12 compatibility
   - Upgraded pandas from 2.1.0 to 2.2.1
