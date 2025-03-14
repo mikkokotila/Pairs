@@ -1,0 +1,18 @@
+Metadata-Version: 2.1
+Name: Bokit
+Version: 0.3
+Summary: Bokit is a Python API that exposes commonly used tools for various Tibetan language workflows.
+Home-page: https://github.com/lopenling/bokit
+Author: Mikko Kotila
+Author-email: mailme@mikkokotila.com
+License: MIT
+Keywords: tibetan etl tools
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+
+Bokit is a Python API that exposes commonly used tools for various Tibetan language workflows.
