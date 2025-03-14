@@ -3,7 +3,7 @@ def translate(self):
     import re
     import json
 
-    from flask import render_template
+    from flask import render_template, redirect, url_for
     from models.auto_translate import auto_translate
     from utils.db_operations import update_entry
     
@@ -68,7 +68,5 @@ def translate(self):
     except Exception as e:
         print(f"Error saving translations to database: {str(e)}")
 
-    return render_template('index.html',
-                            rows=self.data.values.tolist(),
-                            files=self.all_files,
-                            selected=self.selected)
+    # Redirect to the root path instead of rendering the template directly
+    return redirect(url_for('index'))

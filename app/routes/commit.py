@@ -2,6 +2,7 @@ def commit(self):
 
     import subprocess
     import os
+    from flask import redirect, url_for
 
     try:
         # Get correct filename without .csv extension
@@ -18,4 +19,5 @@ def commit(self):
         
         print(f"An error occurred while committing to GitHub: {e}")
 
-    return '', 204
+    # Redirect to the root path instead of returning an empty response
+    return redirect(url_for('index'))

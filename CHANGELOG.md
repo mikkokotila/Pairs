@@ -53,6 +53,16 @@
   - Added User-Agent header to requests
   - Enhanced text cleaning to preserve Tibetan characters
 
+## 13:29 on 14-03-2025
+
+- Fixed routes to redirect to root path
+  - Modified commit.py to redirect to root after operation
+  - Modified publish.py to redirect to root after operation
+  - Modified translate.py to redirect to root after operation
+  - Modified review.py to redirect to root after operation
+  - Ensures consistent navigation experience for users
+  - Fixes issue #39
+
 ## 13:02 on 14-03-2025
 
 - Made Codecov integration optional in GitHub Actions workflow

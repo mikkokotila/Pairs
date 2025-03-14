@@ -3,6 +3,7 @@ def review(self):
         import re
         import json
         from utils.db_operations import update_entry, get_db
+        from flask import redirect, url_for
 
         from models.auto_review import auto_review
         
@@ -22,9 +23,9 @@ def review(self):
         # Join all formatted rows into a single string
         result_string = ''.join(formatted_rows)
 
-        # If no rows to review, return early
+        # If no rows to review, return early with redirect to root
         if not formatted_rows:
-            return '', 204
+            return redirect(url_for('index'))
 
         text = auto_review([result_string])
         response_text = f"{text}"
@@ -68,4 +69,5 @@ def review(self):
             print(f"Updating annotation for row {idx} with comment: {comment}")
             update_entry(self.db_path, filename, idx, 'annotation', comment)
 
-        return '', 204
+        # Redirect to the root path instead of returning an empty response
+        return redirect(url_for('index'))
