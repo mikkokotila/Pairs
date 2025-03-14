@@ -9,7 +9,7 @@ sys.path.insert(0, '../../Bokit')
 import bokit
 
 # Use absolute imports
-from utils.db_operations import init_db
+from app.utils.db_operations import init_db
 
 
 class TranslationApp:

@@ -1,13 +1,6 @@
 [run]
 source = app
-omit = 
-    */tests/*
-    */venv/*
-    */env/*
-    */flask_session/*
-    */__pycache__/*
-    *.pyc
-    app/run.py
+omit = */tests/*,*/venv/*,*/env/*,*/flask_session/*,*/__pycache__/*,*.pyc,app/run.py
 
 [report]
 exclude_lines =
@@ -22,3 +15,6 @@ exclude_lines =
 
 [html]
 directory = coverage_html_report 
+
+[xml]
+output = coverage.xml 
