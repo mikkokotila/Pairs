@@ -3,6 +3,7 @@
   - Added missing `__init__.py` to utils directory
   - Added missing `__init__.py` to models directory
   - Fixed import issues when running tests
+  - Updated import statements to use absolute imports
   - Ensures proper module resolution during test execution
   - Improves compatibility with pytest and coverage tools
 
