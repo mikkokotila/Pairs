@@ -174,6 +174,46 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Claude AI](https://www.anthropic.com/claude) for powering the AI assistance features
 - All contributors and translators who have helped improve this tool
 
+## Testing
+
+The project includes a comprehensive testing suite with unit tests, integration tests, and data integrity tests.
+
+### Running Tests
+
+To run the tests, first install the development dependencies:
+
+```bash
+pip install -r requirements-dev.txt
+```
+
+Then run the tests with pytest:
+
+```bash
+pytest
+```
+
+### Test Coverage
+
+The tests are configured to generate coverage reports. To view the coverage report:
+
+```bash
+pytest --cov=app
+```
+
+For a detailed HTML coverage report:
+
+```bash
+pytest --cov=app --cov-report=html
+```
+
+Then open `coverage_html_report/index.html` in your browser.
+
+### Test Structure
+
+- `tests/unit/`: Unit tests for individual functions and classes
+- `tests/integration/`: Integration tests for routes and API endpoints
+- `tests/data_integrity/`: Tests for data integrity and consistency
+
 ---
 
 <div align="center">
