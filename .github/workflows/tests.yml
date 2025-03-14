@@ -29,12 +29,17 @@ jobs:
         pip install -r requirements-dev.txt
         pip install pytest pytest-cov coverage
         
-    - name: Run tests and generate coverage
+    - name: Run tests
       run: |
-        # First, run pytest with coverage to collect data
-        python -m pytest -v tests/ --cov=app --cov-report=term --no-cov-on-fail || true
+        # First, run pytest without coverage to ensure tests pass
+        python -m pytest -v tests/
         
-        # Then, explicitly generate the coverage.xml file
+    - name: Generate coverage
+      run: |
+        # Then, generate coverage data separately
+        python -m pytest -v tests/ --cov=app --cov-report=term || true
+        
+        # Generate the coverage.xml file
         python -m coverage xml
         
     - name: Verify coverage file exists
