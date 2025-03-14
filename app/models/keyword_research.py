@@ -50,16 +50,25 @@ def keyword_research(keyword, context=context, dictionary_window=1000, corpus_wi
 
     result = list(set(result))
 
-    context['examples'] = ';'.join(random.choices(result, k=corpus_window))
+    # Check if result list is empty to avoid IndexError
+    if not result:
+        context['examples'] = ''
+    else:
+        context['examples'] = ';'.join(random.choices(result, k=min(corpus_window, len(result))))
 
-    context_dictionary = requests.get(f"http://127.0.0.1:5001/lookup-glossary?keyword={keyword}").json()
-    keyword = list(context_dictionary['monlam'].keys())[0]
-    context_dictionary = context_dictionary['monlam'][keyword]
+    try:
+        context_dictionary = requests.get(f"http://127.0.0.1:5001/lookup-glossary?keyword={keyword}").json()
+        keyword = list(context_dictionary['monlam'].keys())[0]
+        context_dictionary = context_dictionary['monlam'][keyword]
 
-    if len(context_dictionary) > dictionary_window:
-        dictionary_window = len(context_dictionary)
+        if len(context_dictionary) > dictionary_window:
+            dictionary_window = len(context_dictionary)
 
-    context['dictionary'] = context_dictionary[:dictionary_window]
+        context['dictionary'] = context_dictionary[:dictionary_window]
+    except (requests.exceptions.ConnectionError, KeyError, IndexError) as e:
+        # Handle the case where the dictionary server is not running or returns unexpected data
+        print(f"Error connecting to dictionary server: {e}")
+        context['dictionary'] = []
     
     messages = prepare_messages_for_translate([keyword])
 
