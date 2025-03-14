@@ -45,7 +45,7 @@ def get_context(self):
                 if not annotation_value:
                     # Empty list, no annotations
                     context_data = {
-                        "Annotations": "No annotations for this row"
+                        "Annotations": "<span class='no-annotations-text'>No annotations for this row</span>"
                     }
                 else:
                     # List has items, render them
@@ -56,7 +56,7 @@ def get_context(self):
                 # If it's not a list or it's None/NaN
                 if pd.isna(annotation_value) or annotation_value is None or annotation_value == "":
                     context_data = {
-                        "Annotations": "No annotations for this row"
+                        "Annotations": "<span class='no-annotations-text'>No annotations for this row</span>"
                     }
                 else:
                     # Convert to string if it's not already
@@ -70,7 +70,7 @@ def get_context(self):
         else:
             # If annotation column doesn't exist
             context_data = {
-                "Annotations": "No annotations for this row"
+                "Annotations": "<span class='no-annotations-text'>No annotations for this row</span>"
             }
             rendered_html = render_template('context_template.html', data=context_data)
             return jsonify({"result": rendered_html, "has_content": True})

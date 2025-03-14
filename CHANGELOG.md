@@ -60,6 +60,7 @@
   - Updated the context pane to display "Annotations" as the heading
   - Added proper handling for empty annotations
   - Improved the display of annotation lists
+  - Added subtle styling for "No annotations for this row" message (italic, lighter color)
   - Fixes issue #37
 
 ## 13:29 on 14-03-2025
