@@ -1,5 +1,9 @@
 import sys
-sys.path.insert(0, '../../Bokit/')
+import os
+
+# Add the parent directory to the path so we can import from app
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(1, '../../Bokit/')
 
 import bokit
 
@@ -7,7 +11,7 @@ import random
 
 from flask import Flask, jsonify, request
 
-from models.build_corpus import build_corpus
+from app.models.build_corpus import build_corpus
 
 corpus = build_corpus()
 
